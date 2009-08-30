@@ -1,0 +1,5 @@
+<ul>
+<% for category in @categories %>
+  <%= render 'blog_admin/categories/_checkbox_list_item', :category => category, :selected_categories => @selected_categories %>
+<% end %>
+</ul>

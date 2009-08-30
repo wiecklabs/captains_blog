@@ -1,0 +1,46 @@
+<div id="comments">
+
+  <% if (comments = @post.comments).any? %>
+    <div>
+    	<ol>
+    	  <% comments.each do |comment| %>
+          <li>
+            <span class="name"><%=h comment.commenter_name %>
+            <span class="website"><%=h comment.commenter_name %>
+            <%=h comment.text %>
+          </li>
+          <%=h comment%>
+        <% end %>
+    	</ol>
+    </div>
+  <% else %>
+    None
+  <% end %>
+
+</div>
+
+<% if @post.accepting_comments? %>
+  <form action="comments" method="post">
+		<div class="row">
+			<input type="text" name="author" id="author" class="textfield" value="<%= 'name' -%>" size="24" tabindex="1" />
+			<label for="author" class="small">Name (required)</label>
+		</div>
+		<div class="row">
+			<input type="text" name="email" id="email" class="textfield" value="<%= 'email@example.com' -%>" size="24" tabindex="2" />
+			<label for="email" class="small">E-Mail (will not be published) (required)</label>
+		</div>
+		<div class="row">
+			<input type="text" name="url" id="url" class="textfield" value="<%= 'http://url.com' -%>" size="24" tabindex="3" />
+			<label for="url" class="small">Website</label>
+		</div>
+
+  	<div class="row">
+  		<textarea name="comment" id="comment" tabindex="4" rows="8" cols="50"></textarea>
+  	</div>
+
+		<a class="feed" href="/comments.rss">Subscribe to comments feed</a>
+		<div class="submitbutton">
+			<input name="submit" type="submit" id="submit" class="button" tabindex="5" value="Submit Comment" />
+		</div>
+  </form>
+<% end %>

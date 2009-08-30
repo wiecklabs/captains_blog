@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <style type="text/css">
+      body { color: #4c4c4c; font: 62.5%/16.0px 'lucida grande', tahoma, verdana, sans-serif; height: 100%; margin: 0; }
+
+      h1 { background-color: #000000; color: #efefef; margin: 0; padding: 10px; border-bottom: solid 3px #74473a;}
+      
+      h2#request-message { background-color: #4B3018; color: #FFC58E; padding: 15px; margin: 0; }
+      
+      ul#session-controls {
+        float: right;
+        list-style: none;
+        margin: 0;
+        padding: 10px 15px 8px 0;
+        overflow: auto;
+        height: 1%;
+        font-size: 1.5em;
+        background-color: #000;
+      }
+      
+      ul#session-controls li {
+        display: inline;
+      }
+
+      ul#session-controls li a {
+        color: #FDEB9C;
+      }
+      
+      ul#admin-sections {
+        list-style: none;
+        margin: 0;
+        padding: 5px 0 8px 0;
+        overflow: auto;
+        height: 1%;
+        font-size: 1.5em;
+        background-color: #84673a;
+      }
+      
+      ul#admin-sections li {
+        display: inline;
+        margin-left: 15px;
+      }
+      
+      ul#admin-sections li a {
+        color: #FDEB9C;
+      }
+
+      {}
+    </style>
+    
+    <!-- Article Form -->
+    <style type="text/css">
+      lablel+textarea, label+input { display: block; margin-bottom: 10px; }
+
+      {}
+    </style>
+    
+    
+  </head>
+  <body>
+    <ul id="session-controls">
+      <li><a href="/account">Account</a></li>
+      <li style="margin-left: 5px; margin-right: 5px;">|</li>
+      <li><a href="/session/new">Login</a></li>
+    </ul>
+
+
+    <h1>Captain's Blog Adminstrator</h1>
+    
+
+    <ul id="admin-sections">
+      <li><a href="/blog-admin/articles">Posts</a></li>
+      <li style="font-size: 0.8em; margin-left: 3px;"><a href="/blog-admin/articles/new" style="color: blue;">(new)</a></li>
+      <li><a href="/blog-admin/links">Links</a></li>
+      <li><a href="/blog-admin/uploads">Media</a></li>
+      <li><a href="/blog-admin/categories">Categories</a></li>
+      <li><a href="/blog-admin/tags">Tags</a></li>
+
+      <li><a href="/blog-admin/authors">Authors</a></li>
+    </ul>
+    
+    <% if message = request['message'] %>
+    <h2 id="request-message">
+      <%=h message %>
+    </h2>
+    <% end %>
+    
+    <div style="margin: 10px;">
+      <%= @content %>
+    </div>
+  </body>
+</html>

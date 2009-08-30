@@ -1,0 +1,11 @@
+<li>
+  <a href="/blog-admin/categories/<%= @category.id -%>"><%=h @category.to_s -%></a>
+  
+  <% if (children = @category.children).any? %>
+    <ul>
+      <% children.each do |child_category| %>
+        <%= render 'blog_admin/categories/_list_item', :category => child_category %>
+      <% end %>
+    </ul>
+  <% end %>
+</li>

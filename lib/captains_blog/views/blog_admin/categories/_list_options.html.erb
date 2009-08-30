@@ -1,0 +1,7 @@
+<% for category in @roots %>
+  <% indent = '   ' * @depth.to_i %>
+  <option value="<%= category.id -%>"><%= indent -%><%=h @category.to_s -%></option>
+  <% if (children = category.children).any? %>
+    <%= render 'blog_admin/categories/_list_options', :roots => children, :depth => @depth.to_i + 1 %>
+  <% end %>
+<% end %>

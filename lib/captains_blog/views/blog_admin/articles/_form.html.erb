@@ -1,0 +1,45 @@
+<%
+  if @article.new_record?
+    resource_path = "/blog-admin/articles"
+    form_method = :post
+    offer_delete = false
+  else
+    resource_path = "/blog-admin/articles/#{@article.id}"
+    form_method = :put
+    offer_delete = true
+  end
+%>
+
+<% form(resource_path, :method => form_method) do %>
+  <fieldset>
+    <label for="article_title">Title</label>
+    <input type="text" id="article_title" name="article[title]" value="<%=h @article.title -%>">
+
+    <label for="article_slug">Slug</label>
+    <input type="text" id="article_slug" name="article[slug]" value="<%=h @article.slug -%>">
+
+    <label for="article_url">URL</label>
+    <input type="text" id="article_url" name="article[url]" value="<%=h @article.url -%>">
+
+    <label for="article_url">Publish Date/Time</label>
+    <input type="text" id="article_published_at" name="article[published_at]" value="<%=h @article.published_at -%>">
+
+    <label for="article_content">Content</label>
+    <textarea id="article_content" name="article[content]"><%=h @article.content -%></textarea>
+  </fieldset>
+  
+  <fieldset>
+    <legend>Categories</legend>
+
+    <%= render 'blog_admin/categories/_checkbox_list', :categories => Category.roots, :selected_categories => @article.categories.entries %>
+  </fieldset>
+  
+  <input type="submit" value="Save">
+<% end %>
+
+<% if offer_delete %>
+  <% form(resource_path, :method => :delete) do %>
+    <input type="submit" value="Delete">
+  <% end %>
+<% end %>
+

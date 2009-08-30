@@ -1,0 +1,11 @@
+<li>
+  <input type="checkbox" name="categories[]" value="<%= @category.id -%>" <%= 'checked="checked"' if @selected_categories.include?(@category) -%>><%=h @category.title -%>
+  
+  <% if (children = @category.children).any? %>
+    <ul>
+      <% children.each do |child_category| %>
+        <%= render 'blog_admin/categories/_checkbox_list_item', :category => child_category %>
+      <% end %>
+    </ul>
+  <% end %>
+</li>

@@ -1,0 +1,38 @@
+<fieldset>
+  <%
+    if @category.new_record?
+      resource_path = "/blog-admin/categories"
+      form_method = :post
+      offer_delete = false
+    else
+      resource_path = "/blog-admin/categories/#{@category.id}"
+      form_method = :put
+      offer_delete = true
+    end
+  %>
+
+  <% form(resource_path, :method => form_method) do %>
+    <label for="category_parent_id">Parent</label>
+    <input type="text" id="category_parent_id" name="category[parent_id]" value="<%=h @category.parent_id -%>">
+    
+    <label for="category_title">Title</label>
+    <input type="text" id="category_title" name="category[title]" value="<%=h @category.title -%>">
+
+    <label for="article_slug">Slug</label>
+    <input type="text" id="category_slug" name="category[slug]" value="<%=h @category.slug -%>">
+
+    <label for="article_position">Position</label>
+    <input type="text" id="category_position" name="category[position]" value="<%=h @category.position -%>">
+
+    <label for="article_content">Notes</label>
+    <textarea id="category_content" name="category[notes]"><%=h @category.notes -%></textarea>
+  
+    <input type="submit" value="Save">
+  <% end %>
+  
+  <% if offer_delete %>
+    <% form(resource_path, :method => :delete) do %>
+      <input type="submit" value="Delete">
+    <% end %>
+  <% end %>
+</fieldset>

@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+# Captains Blog generator
+#
+#   usage: captains_blog add blog_name
+
+load "config.ru"
+require "harbor/generator"
+require "captains_blog/generators"
+
+command = ARGV.shift
+
+Harbor::Generator.run('captains_blog', command, ARGV)

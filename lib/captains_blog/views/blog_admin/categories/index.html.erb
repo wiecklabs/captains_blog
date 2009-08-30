@@ -1,0 +1,7 @@
+<a href="/blog-admin/categories/new">New Category</a>
+
+<ul>
+<% for category in @categories %>
+  <%= render 'blog_admin/categories/_list_item', :category => category %>
+<% end %>
+</ul>

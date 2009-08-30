@@ -1,0 +1,34 @@
+<h3><%= @post.title %></h3>
+
+<div class="post" id="post-<%= @post.id -%>">
+	<h4><%= @post.title %></h4>
+
+	<div class="info">
+		<span class="date"><%= @post.published_at.strftime('%B %d, %Y') -%></span>
+		<span class="editpost"><a href="/blog-admin/articles/<%= @post.id -%>">Edit</a></span>
+		<span class="addcomment"><a href="#respond">Leave a comment</a></span>
+	</div>
+	
+	<div class="content">
+		<%= @post.content %>
+		<div class="fixed"></div>
+	</div>
+
+	<div>
+	  <span class="categories">Categories</span>
+	  <% if (categories = @post.categories.entries).any? %>
+      <%= category_links(categories) %>
+    <% else %>
+      Uncategorized
+    <% end %>
+
+    <span class="tags">Tags: </span>
+    <% if (tags = @post.tags.entries).any? %>
+      <%= tag_links(tags) %>
+    <% else %>
+      <a href="javascript: void(0);">None</a>
+    <% end %>
+	</div>
+</div>
+
+<%= comments_panel(@post) %>
