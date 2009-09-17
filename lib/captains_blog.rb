@@ -2,30 +2,13 @@ require 'rubygems'
 
 gem "harbor", ">= 0.10.2"
 require "harbor"
-
-gem "dm-core"
-require "dm-core"
-
-gem "dm-is-searchable"
-require "dm-is-searchable"
+require "harbor/logging"
 
 gem "dm-is-tree"
 require "dm-is-tree"
 
-gem "dm-validations"
-require "dm-validations"
-
-gem "dm-timestamps"
-require "dm-timestamps"
-
-gem "dm-observer"
-require "dm-observer"
-
-gem "dm-aggregates"
-require "dm-aggregates"
-
-gem "dm-types"
-require "dm-types"
+gem "port_authority", ">= 1.0"
+require "port_authority"
 
 class Fixnum
 	def self.ordinal(number)
