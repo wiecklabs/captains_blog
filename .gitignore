@@ -1,4 +1,4 @@
 blogs
 pkg
 log
-captains_blog.db
+*.db

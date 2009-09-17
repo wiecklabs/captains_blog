@@ -25,7 +25,8 @@ elsif $0['thin']
     ENV['ENVIRONMENT'],
     services,
     CaptainsBlog::AllBlogThemes,
-    CaptainsBlog
+    CaptainsBlog,
+    PortAuthority
   )
 else $0['rake']
   # Require rake tasks here
