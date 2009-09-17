@@ -3,26 +3,20 @@ class CaptainsBlog::Pages
   attr_accessor :request, :response, :logger, :blog
 
   def index
-    response.render blog.page("index"), :layout => blog.page("default"), :blog => blog, :posts => blog.articles
+    response.render blog.page("pages/index"), :layout => blog.page("layouts/blog"), :blog => blog, :posts => blog.articles
   end
 
   def handle_page_request(path)
     article = Article.first(:url => path)
 
-    response.render blog.page('show_post'), :layout => blog.page('default'), :blog => blog, :post => article
+    response.render blog.page('pages/show_post'), :layout => blog.page('layouts/blog'), :blog => blog, :post => article
   end
 
   def show_post(slug)
     post = blog.posts.first(:slug => slug)
 
-    response.render blog.page('show_post'), :layout => blog.page('default'), :blog => blog, :post => post
+    response.render blog.page('pages/show_post'), :layout => blog.page('layouts/blog'), :blog => blog, :post => post
   end
-
-  # def show(page_key, options = {})
-  #   blog = Blog.first
-  # 
-  #   response.render blog.page(page_key), options.merge(:layout => blog.layout('default'))
-  # end
 
   def leave_comment(post_slug, comment_params)
     post = blog.posts.first(:slug => post_slug)

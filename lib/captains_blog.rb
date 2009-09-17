@@ -51,8 +51,8 @@ class CaptainsBlog < Harbor::Application
             service = @container.get(@service_name, 
               :request => request, 
               :response => response, 
-              :blog => active_blog,
-              :logger => Logging::Logger[service]
+              :blog => active_blog
+              # :logger => Logging::Logger[service]
             )
 
             handler.arity == 2 ? handler[service, request] : handler[service]
@@ -67,7 +67,7 @@ class CaptainsBlog < Harbor::Application
   Dir[Pathname(__FILE__).dirname + "captains_blog/models/*.rb"].each { |r| require r }
   Dir[Pathname(__FILE__).dirname + "captains_blog/controllers/**/**.rb"].each { |r| require r }
 
-  Harbor::View::path.unshift(Pathname(__FILE__).dirname + "captains_blog/themes")
+  # Harbor::View::path.unshift(Pathname(__FILE__).dirname + "captains_blog/themes")
   Harbor::View::path.unshift(Pathname(__FILE__).dirname + "captains_blog/views")  
 
   def default_layout
@@ -107,6 +107,8 @@ class CaptainsBlog < Harbor::Application
   end
 
   def self.blog_repository=(value)
+    Harbor::View::path.unshift(value)
+
     @blog_repository = value
   end
 

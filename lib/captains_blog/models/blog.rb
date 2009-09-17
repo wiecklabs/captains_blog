@@ -16,8 +16,12 @@ class Blog
   has n, :taggings
   has n, :tags, :through => :taggings
 
-  def page(key)
-    (Pathname(CaptainsBlog.blog_repository) + self.slug + "themes" + self.theme_name + "#{key}.html.erb").expand_path
+  def page(path)
+    if self.slug && self.theme_name
+      File.join(self.slug, "themes", self.theme_name, path)
+    else
+      path
+    end
   end
 
 end
