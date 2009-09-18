@@ -12,8 +12,8 @@ services = Harbor::Container.new
 
 DataMapper.setup :default, "sqlite3://#{Pathname(__FILE__).dirname.expand_path + "captains_blog.db"}"
 
+UI::public_path = Pathname(__FILE__).dirname + "public"
 CaptainsBlog.root = "/blogs"
-
 CaptainsBlog.blog_repository = Pathname(__FILE__).dirname.expand_path + 'blogs'
 
 if $0 == __FILE__

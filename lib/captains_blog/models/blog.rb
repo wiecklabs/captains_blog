@@ -17,6 +17,10 @@ class Blog
   has n, :taggings
   has n, :tags, :through => :taggings
 
+  def root
+    CaptainsBlog.root + "/#{slug}/"
+  end
+
   def page(path)
     if self.slug && self.theme_name
       File.join(self.slug, "themes", self.theme_name, path)

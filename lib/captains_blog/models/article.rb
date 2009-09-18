@@ -6,7 +6,6 @@ class Article
 	property :id, Serial
 	property :type, Discriminator
 	property :slug, String, :size => 200
-	property :url, String, :size => 250
 	property :title, String, :size => 300
 	property :content, Text
 	property :published_at, DateTime, :default => lambda { Time.now }
@@ -27,6 +26,10 @@ class Article
 
 	def to_s
     title
+  end
+
+  def path
+    "#{published_at.strftime("%Y/%m/%d")}/#{slug}"
   end
 
 end
