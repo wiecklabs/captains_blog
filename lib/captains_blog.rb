@@ -1,61 +1,30 @@
-require 'rubygems'
+require "rubygems"
+require "pathname"
 
-gem "harbor", ">= 0.10.2"
+$:.unshift(Pathname(__FILE__).dirname.expand_path)
+
+gem "harbor", ">= 0.12.7"
 require "harbor"
 require "harbor/logging"
 
 gem "dm-is-tree"
 require "dm-is-tree"
+require "dm-is-tree/is/version"
 
 gem "port_authority", ">= 1.0"
 require "port_authority"
 
-class Fixnum
-	def self.ordinal(number)
-		to_s + ([[nil, 'st','nd','rd'],[]][number % 100 / 10 == 1 ? 1 : 0][number % 10] || 'th')
-	end
-end
-
 class CaptainsBlog < Harbor::Application
+  
+  require "captains_blog/router"
 
   module Admin; end
   module BlogAdmin; end
 
-  class Router < Harbor::Router
-    class Using < Harbor::Router::Using
-
-      %w(get post put delete).each do |verb|
-        class_eval <<-EOS
-        def #{verb}(matcher, &handler)
-          @router.send(#{verb.inspect}, matcher) do |request, response|
-            # TODO: Determine Active Blog based on request (hostname/hash lookup?)
-            active_blog = Blog.first
-            
-            service = @container.get(@service_name, 
-              :request => request, 
-              :response => response, 
-              :blog => active_blog
-              # :logger => Logging::Logger[service]
-            )
-
-            handler.arity == 2 ? handler[service, request] : handler[service]
-          end
-        end
-        EOS
-      end
-
-    end
-  end
-
-  Dir[Pathname(__FILE__).dirname + "captains_blog/models/*.rb"].each { |r| require r }
-  Dir[Pathname(__FILE__).dirname + "captains_blog/controllers/**/**.rb"].each { |r| require r }
-
   # Harbor::View::path.unshift(Pathname(__FILE__).dirname + "captains_blog/themes")
   Harbor::View::path.unshift(Pathname(__FILE__).dirname + "captains_blog/views")  
-
-  def default_layout
-    ["inove/default"] #, "layouts/application", "layouts/admin"]
-  end
+  
+  Harbor::View.layouts.map("*", "layouts/application")
 
   def self.root
     (Pathname(__FILE__).dirname + "captains_blog").expand_path
@@ -131,8 +100,10 @@ class CaptainsBlog < Harbor::Application
       end
 
       using services, CaptainsBlog::Pages do
-        get("/") { |blog_pages| blog_pages.index }
-        get(/.*/) { |blog_pages, request| blog_pages.handle_page_request(request.path) }
+        root = (CaptainsBlog.root + "/:blog_slug").squeeze("/")
+
+        get(root) { |blog_pages| blog_pages.index }
+        get("#{root}/:yyyy/:mm/:dd/:post_slug") { |blog_pages, request| blog_pages.show(request['post_slug']) }
       end
 
     end
@@ -152,4 +123,27 @@ class CaptainsBlog < Harbor::Application
 
 end
 
-require Pathname(__FILE__).dirname + "captains_blog/helpers"
+class Fixnum
+	def self.ordinal(number)
+		to_s + ([[nil, 'st','nd','rd'],[]][number % 100 / 10 == 1 ? 1 : 0][number % 10] || 'th')
+	end
+end
+
+require "captains_blog/models/article"
+require "captains_blog/models/blog"
+require "captains_blog/models/category"
+require "captains_blog/models/comment"
+require "captains_blog/models/page"
+require "captains_blog/models/page_attribute"
+require "captains_blog/models/tag"
+require "captains_blog/models/tagging"
+require "captains_blog/models/template"
+
+require "captains_blog/controllers/blogs"
+require "captains_blog/controllers/pages"
+require "captains_blog/controllers/blog_admin/articles"
+require "captains_blog/controllers/blog_admin/blog"
+require "captains_blog/controllers/blog_admin/categories"
+require "captains_blog/controllers/blog_admin/links"
+
+require "captains_blog/helpers"

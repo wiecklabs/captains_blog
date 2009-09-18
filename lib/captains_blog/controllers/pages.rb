@@ -6,11 +6,11 @@ class CaptainsBlog::Pages
     response.render blog.page("pages/index"), :layout => blog.page("layouts/blog"), :blog => blog, :posts => blog.articles
   end
 
-  def handle_page_request(path)
-    article = Article.first(:url => path)
-
-    response.render blog.page('pages/show_post'), :layout => blog.page('layouts/blog'), :blog => blog, :post => article
-  end
+  # def handle_page_request(path)
+  #   article = Article.first(:url => path)
+  # 
+  #   response.render blog.page('pages/show_post'), :layout => blog.page('layouts/blog'), :blog => blog, :post => article
+  # end
 
   def show_post(slug)
     post = blog.posts.first(:slug => slug)

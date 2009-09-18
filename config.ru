@@ -13,7 +13,7 @@ services = Harbor::Container.new
 DataMapper.setup :default, "sqlite3://#{Pathname(__FILE__).dirname.expand_path + "captains_blog.db"}"
 # DataMapper.setup :search, "ferret:///tmp/captains_blog.sock"
 
-CaptainsBlog.root = "/"
+CaptainsBlog.root = "/blog"
 
 CaptainsBlog.blog_repository = Pathname(__FILE__).dirname.expand_path + 'blogs'
 

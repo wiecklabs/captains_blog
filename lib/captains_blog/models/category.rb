@@ -1,5 +1,3 @@
-require "dm-is-tree/is/version"
-
 class Category
   include DataMapper::Resource
 
