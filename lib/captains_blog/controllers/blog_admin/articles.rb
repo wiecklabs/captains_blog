@@ -1,35 +1,33 @@
 class CaptainsBlog::BlogAdmin::Articles
   
-  attr_accessor :request, :response, :logger
+  attr_accessor :request, :response, :logger, :blog
 
   def index
-    response.render "blog_admin/articles/index", :layout => "layouts/blog_admin", :articles => Article.all
+    response.render "blog_admin/articles/index", :layout => "layouts/blog_admin", :articles => Article.all, :blog => @blog
   end
 
   def show(article_id)
-    response.render "blog_admin/articles/show", :layout => "layouts/blog_admin", :article => Article.get(article_id)
+    response.render "blog_admin/articles/show", :layout => "layouts/blog_admin", :article => Article.get(article_id), :blog => @blog
   end
 
   def new
-    response.render "blog_admin/articles/new", :layout => "layouts/blog_admin", :article => Article.new
+    response.render "blog_admin/articles/new", :layout => "layouts/blog_admin", :article => Article.new, :blog => @blog
   end
 
   def edit(article_id)
-    response.render "blog_admin/articles/edit", :layout => "layouts/blog_admin", :article => Article.get(article_id)
+    response.render "blog_admin/articles/edit", :layout => "layouts/blog_admin", :article => Article.get(article_id), :blog => @blog
   end
 
   def create(article_params, category_params)
     article = Article.new
+    article.blog = @blog
     article.attributes = article_params
-    article.categories.clear
-    article.save
-
     article.categories = Category.all(:id => category_params)
 
     if article.save
-      response.redirect "/blog-admin/articles/#{article.id}", :layout => "layouts/blog_admin", :message => "Saved Article #{article.to_s}"
+      response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/articles/#{article.id}", :layout => "layouts/blog_admin", :message => "Saved Article #{article.to_s}"
     else
-      response.render "blog_admin/articles/new", :layout => "layouts/blog_admin", :article => article
+      response.render "blog_admin/articles/new", :layout => "layouts/blog_admin", :article => article, :blog => @blog
     end
   end
 
@@ -42,9 +40,9 @@ class CaptainsBlog::BlogAdmin::Articles
     article.categories = Category.all(:id => category_params)
 
     if article.save
-      response.redirect "/blog-admin/articles/#{article.id}", :layout => "layouts/blog_admin", :message => "Saved Article #{article.to_s}"
+      response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/articles/#{article.id}", :layout => "layouts/blog_admin", :message => "Saved Article #{article.to_s}"
     else
-      response.render "blog_admin/articles/show", :layout => "layouts/blog_admin", :article => article
+      response.render "blog_admin/articles/show", :layout => "layouts/blog_admin", :article => article, :blog => @blog
     end
   end
 
@@ -55,7 +53,7 @@ class CaptainsBlog::BlogAdmin::Articles
       return response.puts(article.destroy)
     else
       if article.destroy
-        response.redirect "/blog-admin/articles", :layout => "layouts/blog_admin", :message => "Deleted Article #{article.to_s}"
+        response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/articles", :layout => "layouts/blog_admin", :message => "Deleted Article #{article.to_s}"
       else
         response.render "blog_admin/articles/show", :layout => "layouts/blog_admin", :article => article
       end

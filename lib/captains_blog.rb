@@ -68,7 +68,8 @@ class CaptainsBlog < Harbor::Application
     raise ArgumentError.new("+services+ must be a Harbor::Container") unless services.is_a?(Harbor::Container)
 
     CaptainsBlog::Router.new do
-
+      root = (CaptainsBlog.root + "/:blog_slug").squeeze("/")
+      
       using services, CaptainsBlog::Blogs do
         get("/admin/blogs")           { |blogs| blogs.index }
         get("/admin/blogs/:id")       { |blogs, request| blogs.response.redirect("/admin/blogs/#{request['id']}/edit") }
@@ -77,31 +78,28 @@ class CaptainsBlog < Harbor::Application
       end
 
       using services, CaptainsBlog::BlogAdmin::Blog do
-        get("/blog-admin") { |blog| blog.dashboard }
+        get("#{root}/admin") { |blog| blog.dashboard }
       end
 
       using services, CaptainsBlog::BlogAdmin::Articles do        
-        get("/blog-admin/articles") { |articles| articles.index }
-        post("/blog-admin/articles") { |articles, params| articles.create(params.fetch('article', {}), params.fetch('categories', [])) }
-        get("/blog-admin/articles/new") { |articles, params| articles.new }
-        get("/blog-admin/articles/:id") { |articles, params| articles.edit(params['id'].to_i) }
-        put("/blog-admin/articles/:id") { |articles, params| articles.update(params['id'].to_i, params.fetch('article', {}), params.fetch('categories', [])) }
-        delete("/blog-admin/articles/:id") { |articles, params| articles.delete(params['id'].to_i) }
+        get("#{root}/admin/articles") { |articles| articles.index }
+        post("#{root}/admin/articles") { |articles, params| articles.create(params.fetch('article', {}), params.fetch('categories', [])) }
+        get("#{root}/admin/articles/new") { |articles, params| articles.new }
+        get("#{root}/admin/articles/:id") { |articles, params| articles.edit(params['id'].to_i) }
+        put("#{root}/admin/articles/:id") { |articles, params| articles.update(params['id'].to_i, params.fetch('article', {}), params.fetch('categories', [])) }
+        delete("#{root}/admin/articles/:id") { |articles, params| articles.delete(params['id'].to_i) }
       end
 
       using services, CaptainsBlog::BlogAdmin::Categories do
-        get("/blog-admin/categories") { |categories| categories.index }
-        post("/blog-admin/categories") { |categories, params| categories.create(params.fetch('category', {})) }
-        get("/blog-admin/categories/new") { |categories, params| categories.new }
-        get("/blog-admin/categories/:id") { |categories, params| categories.edit(params['id'].to_i) }
-        put("/blog-admin/categories/:id") { |categories, params| categories.update(params['id'].to_i, params.fetch('category', {})) }
-        delete("/blog-admin/categories/:id") { |categories, params| categories.delete(params['id'].to_i) }
-
+        get("#{root}/admin/categories") { |categories| categories.index }
+        post("#{root}/admin/categories") { |categories, params| categories.create(params.fetch('category', {})) }
+        get("#{root}/admin/categories/new") { |categories, params| categories.new }
+        get("#{root}/admin/categories/:id") { |categories, params| categories.edit(params['id'].to_i) }
+        put("#{root}/admin/categories/:id") { |categories, params| categories.update(params['id'].to_i, params.fetch('category', {})) }
+        delete("#{root}/admin/categories/:id") { |categories, params| categories.delete(params['id'].to_i) }
       end
 
       using services, CaptainsBlog::Pages do
-        root = (CaptainsBlog.root + "/:blog_slug").squeeze("/")
-
         get(root) { |blog_pages| blog_pages.index }
         get("#{root}/:yyyy/:mm/:dd/:post_slug") { |blog_pages, request| blog_pages.show(request['post_slug']) }
       end

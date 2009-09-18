@@ -71,16 +71,15 @@
 
     <h1>Captain's Blog Adminstrator</h1>
     
-
     <ul id="admin-sections">
-      <li><a href="/blog-admin/articles">Posts</a></li>
-      <li style="font-size: 0.8em; margin-left: 3px;"><a href="/blog-admin/articles/new" style="color: blue;">(new)</a></li>
-      <li><a href="/blog-admin/links">Links</a></li>
-      <li><a href="/blog-admin/uploads">Media</a></li>
-      <li><a href="/blog-admin/categories">Categories</a></li>
-      <li><a href="/blog-admin/tags">Tags</a></li>
+      <li><a href="<%= "#{blog_root}" %>/admin/articles">Posts</a></li>
+      <li style="font-size: 0.8em; margin-left: 3px;"><a href="<%= "#{blog_root}" %>/admin/articles/new" style="color: blue;">(new)</a></li>
+      <li><a href="<%= "#{blog_root}" %>/admin/links">Links</a></li>
+      <li><a href="<%= "#{blog_root}" %>/admin/uploads">Media</a></li>
+      <li><a href="<%= "#{blog_root}" %>/admin/categories">Categories</a></li>
+      <li><a href="<%= "#{blog_root}" %>/admin/tags">Tags</a></li>
 
-      <li><a href="/blog-admin/authors">Authors</a></li>
+      <li><a href="<%= "#{blog_root}" %>/admin/authors">Authors</a></li>
     </ul>
     
     <% if message = request['message'] %>

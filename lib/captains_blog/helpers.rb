@@ -42,6 +42,10 @@ module CaptainsBlog::Helpers
   def comments_panel(post)
     return render(@blog.page('_comments'), :post => post)
   end
+  
+  def blog_root
+    "#{CaptainsBlog.root}/#{@blog.slug}"
+  end
 
 end
 

@@ -1,5 +1,5 @@
 <li>
-  <a href="/blog-admin/categories/<%= @category.id -%>"><%=h @category.to_s -%></a>
+  <a href="<%= blog_root %>/admin/categories/<%= @category.id -%>"><%=h @category.to_s -%></a>
   
   <% if (children = @category.children).any? %>
     <ul>

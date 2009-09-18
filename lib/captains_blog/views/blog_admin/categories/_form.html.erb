@@ -1,11 +1,11 @@
 <fieldset>
   <%
     if @category.new_record?
-      resource_path = "/blog-admin/categories"
+      resource_path = "#{blog_root}/admin/categories"
       form_method = :post
       offer_delete = false
     else
-      resource_path = "/blog-admin/categories/#{@category.id}"
+      resource_path = "#{blog_root}/admin/categories/#{@category.id}"
       form_method = :put
       offer_delete = true
     end

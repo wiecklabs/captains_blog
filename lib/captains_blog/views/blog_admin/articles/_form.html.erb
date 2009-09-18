@@ -1,10 +1,10 @@
 <%
   if @article.new_record?
-    resource_path = "/blog-admin/articles"
+    resource_path = "#{blog_root}/admin/articles"
     form_method = :post
     offer_delete = false
   else
-    resource_path = "/blog-admin/articles/#{@article.id}"
+    resource_path = "#{blog_root}/admin/articles/#{@article.id}"
     form_method = :put
     offer_delete = true
   end

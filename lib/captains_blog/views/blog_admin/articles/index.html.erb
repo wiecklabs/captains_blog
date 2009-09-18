@@ -1,7 +1,7 @@
-<a href="/blog-admin/articles/new">New Post</a>
+<a href="<%= blog_root %>/admin/articles/new">New Post</a>
 
 <ul>
 <% for article in @articles %>
-  <li><a href="/blog-admin/articles/<%= article.id -%>"><%=h article.to_s -%></a></li>
+  <li><a href="<%= blog_root %>/admin/articles/<%= article.id -%>"><%=h article.to_s -%></a></li>
 <% end %>
 </ul>
