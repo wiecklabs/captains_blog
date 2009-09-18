@@ -9,7 +9,8 @@ class Blog
   property :theme_name, String, :size => 50
   property :root_url, String, :size => 100
 
-  # validate_unique :slug
+  validates_is_unique :slug
+  validates_present :slug, :title
 
   has n, :articles
 

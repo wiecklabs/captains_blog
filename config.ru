@@ -23,6 +23,7 @@ elsif $0['thin']
   run Harbor::Cascade.new(
     ENV['ENVIRONMENT'],
     services,
+    CaptainsBlog::Setup,
     CaptainsBlog::AllBlogThemes,
     CaptainsBlog,
     PortAuthority

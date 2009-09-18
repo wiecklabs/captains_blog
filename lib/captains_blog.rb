@@ -137,6 +137,7 @@ require "captains_blog/models/tag"
 require "captains_blog/models/tagging"
 require "captains_blog/models/template"
 
+require "captains_blog/setup"
 require "captains_blog/controllers/blogs"
 require "captains_blog/controllers/pages"
 require "captains_blog/controllers/blog_admin/articles"
