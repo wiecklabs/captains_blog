@@ -72,6 +72,8 @@ class CaptainsBlog < Harbor::Application
       
       using services, CaptainsBlog::Blogs do
         get("/admin/blogs")           { |blogs| blogs.index }
+        post("/admin/blogs")          { |blogs, request| blogs.create(request['blog']) }
+        get("/admin/blogs/new")       { |blogs, request| blogs.new }
         get("/admin/blogs/:id")       { |blogs, request| blogs.response.redirect("/admin/blogs/#{request['id']}/edit") }
         get("/admin/blogs/:id/edit")  { |blogs, request| blogs.edit(request['id'].to_i) }
         put("/admin/blogs/:id")       { |blogs, request| blogs.update(request['id'].to_i, request['blog']) }
@@ -126,6 +128,8 @@ class Fixnum
 		to_s + ([[nil, 'st','nd','rd'],[]][number % 100 / 10 == 1 ? 1 : 0][number % 10] || 'th')
 	end
 end
+
+UI::AccountNavigation.register("Site Admin", "/admin")
 
 require "captains_blog/models/article"
 require "captains_blog/models/blog"

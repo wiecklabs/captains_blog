@@ -43,8 +43,8 @@ module CaptainsBlog::Helpers
     return render(@blog.page('_comments'), :post => post)
   end
   
-  def blog_root
-    "#{CaptainsBlog.root}/#{@blog.slug}"
+  def blog_root(blog = nil)
+    "#{CaptainsBlog.root}/#{blog ? blog.slug : @blog}"
   end
 
 end

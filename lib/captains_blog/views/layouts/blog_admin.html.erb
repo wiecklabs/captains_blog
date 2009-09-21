@@ -19,8 +19,6 @@
         list-style: none;
         margin: 0;
         padding: 8px 0;
-        overflow: auto;
-        height: 1%;
         font-size: 1.5em;
         background-color: #84673a;
       }
@@ -30,12 +28,16 @@
         margin-left: 15px;
       }
       
-      ul#admin-sections li a {
+      ul#admin-sections li a, ul#admin-sections li a:visited {
         color: #FDEB9C;
         border: 0;
       }
 
       ul#admin-sections li a.new { color: #ada; }
+
+      .error { background-color: #c55; color: #fff; font-size: 12px; padding: 10px; margin-bottom: 10px; }
+      .error h2 { font-size: 12px; margin: 0; }
+      .error ul { margin: 0; }
 
       {}
     </style>

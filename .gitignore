@@ -2,3 +2,4 @@ blogs
 pkg
 log
 *.db
+public/assets
