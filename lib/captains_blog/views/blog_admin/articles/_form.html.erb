@@ -27,6 +27,10 @@
     <label for="article_byline">Byline</label>
     <input type="text" id="article_byline" name="article[byline]" value="<%= h @article.byline || me.name %>">
 
+    <label for="article_comments">Comments Enabled?</label>
+    <input type="hidden" name="article[accepting_comments]" value="0">
+    <input type="checkbox" name="article[accepting_comments]" value="1" <%= 'checked' if @article.accepting_comments? %>>
+
     <label for="article_url">Publish Date/Time</label>
     <%= UI::DateTimeTextBox.new(self, @article, "article", "published_at") %>
 

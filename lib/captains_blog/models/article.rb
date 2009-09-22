@@ -25,6 +25,12 @@ class Article
   # has n, :categories, :through => :categorizations
   has n, :categories, :through => Resource
 
+  before :save do
+    if slug.blank? && title
+      self.slug = title.downcase.gsub(/\W/, '-').squeeze('-')
+    end
+  end
+
 	def to_s
     title.blank? ? "Untitled" : title
   end

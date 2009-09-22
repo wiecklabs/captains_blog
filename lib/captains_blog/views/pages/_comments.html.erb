@@ -1,0 +1,43 @@
+<% head "comments" do %>
+<style type="text/css" media="screen">
+  .comments { clear: both; }
+  .comments .comment { background-color: #f5f5f5; border-top: 4px solid #e5e5e5; margin-bottom: 15px; padding: 20px 20px 10px 20px; }
+  .comments .highlight { background-color: #ffd; border-color: #feb; }
+  .comments .comment .date { font-style: italic; }
+  
+  .comments h6 { font-size: inherit; margin: 0 0 10px 0; }
+  .comments form { background-color: #f5f5f5; border-top: 4px solid #e5e5e5; padding: 20px; }
+  .comments fieldset { border: 0; margin: 0; padding: 0; }
+  .comments legend { font-weight: bold; }
+  .comments label { display: block; }
+  .comments textarea { padding: 10px; height: 5em; width: 560px; }
+  .comments p { float: none; margin: 0 0 10px 0; width: auto; }
+  .comments .note { color: #666; font-style: italic; margin-top: 5px; }
+</style>
+<% end %>
+<% if @post.accepting_comments? || !@post.comments.empty? %>
+<div class="comments">
+  <h5>
+    <%= size = @post.comments.size %> Comment<%= "s" unless size == 1 %><% unless @post.accepting_comments? %> (comments are closed)<% end %>
+  </h5>
+
+  <% @post.comments.each do |comment| %>
+  <div class="comment <%= 'highlight' if comment.user %>">
+    <p class="meta"><strong class="author"><%= comment.user.name %></strong> said on <span class="date"><%= comment.created_at %></span>:</p>
+    <p><%= comment.text %></p>
+  </div>
+  <% end %>
+
+  <% if me && @post.accepting_comments? %>
+  <form id="comment-form" action="<%= blog_root %>/<%= @post.path %>/comment" method="post">
+    <fieldset>
+      <h6>Leave your comment:</h6>
+      <textarea name="body"></textarea>
+      <%= plugin("post/comment_policy") %>
+    </fieldset>
+    <input type="submit" value="Submit Comment">
+
+  </form>
+  <% end %>
+</div>
+<% end %>

@@ -10,6 +10,11 @@ class Comment
   property :text, Text
   property :created_at, DateTime
 
+  def self.require_approvals
+    property :approved, Boolean, :default => false
+  end
+
+  belongs_to :user
   belongs_to :post
 
 end

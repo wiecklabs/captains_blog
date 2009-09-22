@@ -3,15 +3,25 @@
 <html>
 <head>
 	<title><%= @blog.title %></title>
+	<style type="text/css" media="screen">
+	 body { font: 12px/20px "Lucida Grande", helvetica, sans-serif; margin: 0; }
+	 h1, h2 { background-color: #000; color: #fff; margin: 0; text-align: center; padding: 5px; }
+	 h1 a { color: #fff; }
+	 .content { padding: 0 20px; }
+	</style>
+  <%= write_head %>
 </head>
 
 <body>
-	<h1><a href="/"><%= @blog.title %></a></h1>
+	<h1><a href="<%= blog_root %>"><%= @blog.title %></a></h1>
 	<% if tagline = @blog.tagline %>
 	  <h2><%= tagline %></h2>
 	<% end %>
   
   <div class="content">
+    <% if request.params['message'] %>
+    <p class="message"><%= request.params['message'] %></p>
+    <% end %>
     <%= @content %>
   </div>
 </body>

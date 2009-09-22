@@ -1,4 +1,8 @@
-Le Post: 
-<p>
-	<%= @post.content %>
-</p>
+<h3><%= @post.title %></h3>
+<% unless @post.byline.empty? %><p class="byline"><%= @post.byline %></p><% end %>
+
+<div>
+  <%= @post.content %>
+</div>
+
+<%= render "pages/_comments" %>

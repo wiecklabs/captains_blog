@@ -46,6 +46,7 @@ module CaptainsBlog::Helpers
   def blog_root(blog = nil)
     "#{CaptainsBlog.root}/#{blog ? blog.slug : @blog.slug}"
   end
+  module_function :blog_root
 
 end
 

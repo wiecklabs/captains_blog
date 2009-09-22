@@ -107,6 +107,10 @@ class CaptainsBlog < Harbor::Application
         get("#{root}/:yyyy/:mm/:dd/:post_slug") { |blog_pages, request| blog_pages.show(request['post_slug']) }
       end
 
+      using services, CaptainsBlog::Comments do
+        post("#{root}/:yyyy/:mm/:dd/:post_slug/comment") { |comments, request| comments.create(request['post_slug'], request['body']) }
+      end
+
     end
 
   end
@@ -130,8 +134,6 @@ class Fixnum
 	end
 end
 
-UI::AccountNavigation.register("Site Admin", "/admin")
-
 require "captains_blog/models/article"
 require "captains_blog/models/blog"
 require "captains_blog/models/category"
@@ -144,6 +146,7 @@ require "captains_blog/models/template"
 
 require "captains_blog/setup"
 require "captains_blog/controllers/blogs"
+require "captains_blog/controllers/comments"
 require "captains_blog/controllers/pages"
 require "captains_blog/controllers/blog_admin/articles"
 require "captains_blog/controllers/blog_admin/blog"
