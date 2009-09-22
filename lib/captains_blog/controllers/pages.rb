@@ -3,14 +3,14 @@ class CaptainsBlog::Pages
   attr_accessor :request, :response, :logger, :blog
 
   def index
-    response.render blog.page("pages/index"), :layout => blog.page("layouts/blog"), :blog => blog, :posts => blog.articles
+    response.render blog.page("pages/index"), :blog => blog, :posts => blog.articles
   end
 
   def show(slug)
     post = blog.articles.first(:slug => slug.downcase)
     response.abort!(404) unless post
 
-    response.render blog.page('pages/show_post'), :layout => blog.page('layouts/blog'), :blog => blog, :post => post
+    response.render blog.page('pages/show_post'), :blog => blog, :post => post
   end
 
   def leave_comment(post_slug, comment_params)

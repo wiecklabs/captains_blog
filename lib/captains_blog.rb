@@ -25,6 +25,7 @@ class CaptainsBlog < Harbor::Application
   Harbor::View::path.unshift(Pathname(__FILE__).dirname + "captains_blog/views")  
   
   Harbor::View.layouts.map("blog_admin/*", "layouts/blog_admin")
+  Harbor::View.layouts.map("pages/*", "layouts/blog")
   Harbor::View.layouts.map("*", "layouts/application")
 
   # def self.root
