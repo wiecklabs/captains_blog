@@ -10,6 +10,12 @@
   end
 %>
 
+<% head do %>
+<style type="text/css" media="screen">
+  form fieldset textarea { width: 500px; }
+</style>
+<% end %>
+
 <% form(resource_path, :method => form_method) do %>
   <fieldset>
     <label for="article_title">Title</label>
@@ -18,11 +24,14 @@
     <label for="article_slug">Slug</label>
     <input type="text" id="article_slug" name="article[slug]" value="<%=h @article.slug -%>">
 
+    <label for="article_byline">Byline</label>
+    <input type="text" id="article_byline" name="article[byline]" value="<%= h @article.byline || me.name %>">
+
     <label for="article_url">Publish Date/Time</label>
-    <input type="text" id="article_published_at" name="article[published_at]" value="<%=h @article.published_at -%>">
+    <%= UI::DateTimeTextBox.new(self, @article, "article", "published_at") %>
 
     <label for="article_content">Content</label>
-    <textarea id="article_content" name="article[content]"><%=h @article.content -%></textarea>
+    <textarea id="article_content" name="article[content]" rows="30"><%=h @article.content -%></textarea>
   </fieldset>
   
   <fieldset>

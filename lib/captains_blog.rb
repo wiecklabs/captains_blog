@@ -24,30 +24,31 @@ class CaptainsBlog < Harbor::Application
   # Harbor::View::path.unshift(Pathname(__FILE__).dirname + "captains_blog/themes")
   Harbor::View::path.unshift(Pathname(__FILE__).dirname + "captains_blog/views")  
   
+  Harbor::View.layouts.map("blog_admin/*", "layouts/blog_admin")
   Harbor::View.layouts.map("*", "layouts/application")
 
-  def self.root
-    (Pathname(__FILE__).dirname + "captains_blog").expand_path
-  end
+  # def self.root
+  #   (Pathname(__FILE__).dirname + "captains_blog").expand_path
+  # end
 
-  def self.script_root
-    root + "script"
-  end
+  # def self.script_root
+  #   root + "script"
+  # end
 
   def self.public_path
-    root + "public"
+    Pathname(__FILE__).dirname.parent + "public"
   end
 
-  def self.private_path
-    root + "private"
-  end
-
-  def self.temp_path
-    root + "tmp"
-  end
+  # def self.private_path
+  #   root + "private"
+  # end
+  # 
+  # def self.temp_path
+  #   root + "tmp"
+  # end
   
   def self.root
-    @root || '/blog'
+    @root || '/blogs'
   end
 
   def self.root=(value)

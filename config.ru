@@ -7,8 +7,8 @@ require "lib/captains_blog"
 
 services = Harbor::Container.new
 
-# CaptainsBlog.services.register("mailer", Harbor::Mailer)
-# CaptainsBlog.services.register("mail_server", Harbor::SendmailServer)
+services.register("mailer", Harbor::Mailer)
+services.register("mail_server", Harbor::MailServers::Sendmail)
 
 DataMapper.setup :default, "sqlite3://#{Pathname(__FILE__).dirname.expand_path + "captains_blog.db"}"
 

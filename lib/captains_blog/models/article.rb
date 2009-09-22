@@ -7,6 +7,7 @@ class Article
 	property :type, Discriminator
 	property :slug, String, :size => 200
 	property :title, String, :size => 300
+	property :byline, String, :size => 200
 	property :content, Text
 	property :published_at, DateTime, :default => lambda { Time.now }
 	property :accepting_comments, Boolean, :default => true
@@ -37,5 +38,5 @@ end
 class Post < Article
 end
 
-class Page < Article
-end
+# class Page < Article
+# end
