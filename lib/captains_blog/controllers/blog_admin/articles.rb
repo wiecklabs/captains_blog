@@ -21,6 +21,7 @@ class CaptainsBlog::BlogAdmin::Articles
   def create(article_params, category_params)
     article = Article.new
     article.blog = @blog
+    article_params["published_at"] = UI::DateTimeTextBox.build(article_params["published_at"])
     article.attributes = article_params
     article.categories = Category.all(:id => category_params)
 
@@ -33,6 +34,7 @@ class CaptainsBlog::BlogAdmin::Articles
 
   def update(article_id, article_params, category_params)
     article = Article.get(article_id)
+    article_params["published_at"] = UI::DateTimeTextBox.build(article_params["published_at"])
     article.attributes = article_params
     article.categories.clear
     article.save
@@ -40,7 +42,7 @@ class CaptainsBlog::BlogAdmin::Articles
     article.categories = Category.all(:id => category_params)
 
     if article.save
-      response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/articles/#{article.id}/edit", :message => "Saved Article #{article.to_s}"
+      response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/articles/#{article.id}", :message => "Saved Article #{article.to_s}"
     else
       response.render "blog_admin/articles/edit", :article => article, :blog => @blog
     end

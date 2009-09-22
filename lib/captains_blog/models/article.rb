@@ -26,7 +26,7 @@ class Article
   has n, :categories, :through => Resource
 
 	def to_s
-    title
+    title.blank? ? "Untitled" : title
   end
 
   def path
