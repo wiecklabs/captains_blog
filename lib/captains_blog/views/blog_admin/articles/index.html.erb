@@ -1,7 +1,17 @@
-<a href="<%= blog_root %>/admin/articles/new">New Post</a>
-
-<ul>
-<% for article in @articles %>
-  <li><a href="<%= blog_root %>/admin/articles/<%= article.id -%>"><%=h article.to_s -%></a></li>
-<% end %>
+<ul class="links" id="tabnav-right">
+  <li><a href="<%= blog_root %>/admin/articles/new">+ New Post</a></li>
 </ul>
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Published</th>
+    </tr>
+  </thead>
+  <% @articles.each do |article| %>
+  <tr>
+    <td><a href="<%= blog_root %>/admin/articles/<%= article.id -%>"><%=h article.to_s %></a></td>
+    <td><%= article.published_at.strftime("%Y-%m-%d @ %H:%M") %></td>
+  </tr>
+  <% end %>
+</table>
