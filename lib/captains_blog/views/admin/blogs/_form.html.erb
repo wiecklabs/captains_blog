@@ -1,0 +1,34 @@
+<%
+  if @blog.new_record?
+    resource_path = "/admin/blogs"
+    form_method = :post
+    offer_delete = false
+  else
+    resource_path = "/admin/blogs/#{@blog.id}"
+    form_method = :put
+    offer_delete = true
+  end
+%>
+
+<% form resource_path, :method => form_method do %>
+  <fieldset>
+    <%= error_messages_for(@blog) %>
+
+    <label for="blog_title">Title</label>
+    <input type="text" id="blog_title" name="blog[title]" value="<%=h @blog.title %>">
+
+    <label for="blog_tagline">Tagline</label>
+    <input type="text" id="blog_tagline" name="blog[tagline]" value="<%=h @blog.tagline %>">
+
+    <label for="blog_slug">Slug</label>
+    <input type="text" id="blog_slug" name="blog[slug]" value="<%=h @blog.slug %>">
+
+  </fieldset>
+  <input type="submit" value="Save">
+<% end %>
+
+<% if offer_delete %>
+  <% form(resource_path, :method => :delete) do %>
+    <input type="submit" value="Delete">
+  <% end %>
+<% end %>

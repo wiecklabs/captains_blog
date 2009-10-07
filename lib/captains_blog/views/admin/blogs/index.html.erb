@@ -1,0 +1,7 @@
+<a href="/admin/blogs/new">New</a>
+
+<ul>
+  <% @blogs.each do |blog| %>
+  <li><a href="/admin/blogs/<%= blog.id %>"><%= blog.title %></a> (<a href="<%= blog_root(blog) %>/admin">admin</a>)</li>
+  <% end %>
+</ul>

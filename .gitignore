@@ -1,5 +1,5 @@
-blogs
-pkg
-log
 *.db
-public/assets
+/blogs
+/public/assets
+/log
+/pkg
