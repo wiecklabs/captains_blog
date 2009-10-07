@@ -5,10 +5,15 @@
 	<title><%= @blog.title %></title>
 	<style type="text/css" media="screen">
 	 body { font: 12px/20px "Lucida Grande", helvetica, sans-serif; margin: 0; }
-	 h1, h2 { background-color: #000; color: #fff; margin: 0; text-align: center; padding: 5px; }
+	 h1, h2 { background-color: #048; color: #fff; margin: 0; text-align: center; padding: 5px; }
+	 h1 { padding-top: 20px; }
+	 h2 { padding-bottom: 20px; }
 	 h1 a { color: #fff; }
-	 .content { padding: 0 20px; }
+	 #content { padding: 0 20px; width: 60em; margin: 0 auto; }
+	 .errors { background-color: #b55; margin-top: 10px; padding: 10px; color: #fff; }
+	 .errors h2 { background-color: #b55; text-align: left; font-size: 14px; margin: 0; padding: 0; }
 	</style>
+
   <%= write_head %>
 </head>
 
@@ -18,7 +23,7 @@
 	  <h2><%= tagline %></h2>
 	<% end %>
   
-  <div class="content">
+  <div id="content">
     <% if request.params['message'] %>
     <p class="message"><%= request.params['message'] %></p>
     <% end %>

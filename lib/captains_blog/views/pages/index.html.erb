@@ -9,8 +9,8 @@
           <span>Comments off</span>
         <% end %>
     
-        <% if post.comment_count > 0 %>
-          <a href="<%= @blog.root + post.path %>#comments" title="Comment on HTML"><%= post.comment_count %> comment<%= 's' if post.comment_count > 0 %></a>
+        <% if post.comments.size > 0 %>
+          <a href="<%= @blog.root + post.path %>#comments" title="Comment on HTML"><%= post.comments.size %> comment<%= 's' if post.comments.size > 1 %></a>
         <% else %>
           <a href="<%= @blog.root + post.path %>#comments" title="Leave a Comment">Be the first to comment!</a>
         <% end %>

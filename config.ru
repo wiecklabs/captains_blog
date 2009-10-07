@@ -21,7 +21,10 @@ UI::AccountNavigation.register("Site Admin", "/admin")
 if $0 == __FILE__
   require "harbor/console"
   Harbor::Console.start
-elsif $0['thin']
+elsif $0['rake']
+  # Require rake tasks here
+  # require "some/rake/tasks"
+else
   run Harbor::Cascade.new(
     ENV['ENVIRONMENT'],
     services,
@@ -30,7 +33,4 @@ elsif $0['thin']
     CaptainsBlog,
     PortAuthority
   )
-else $0['rake']
-  # Require rake tasks here
-  # require "some/rake/tasks"
 end

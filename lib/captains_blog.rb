@@ -66,6 +66,25 @@ class CaptainsBlog < Harbor::Application
     @blog_repository = value
   end
 
+  @@public_comments_enabled = true
+  def self.disable_public_comments!
+    @@public_comments_enabled = false
+  end
+
+  def self.public_comments_enabled?
+    @@public_comments_enabled
+  end
+  
+  @@require_approvals = false
+  def self.require_approvals
+    @@require_approvals = true
+    Comment.require_approvals!
+  end
+
+  def self.approvals_required?
+    @@require_approvals
+  end
+
   def self.routes(services = self.services)
     raise ArgumentError.new("+services+ must be a Harbor::Container") unless services.is_a?(Harbor::Container)
 
@@ -109,7 +128,7 @@ class CaptainsBlog < Harbor::Application
       end
 
       using services, CaptainsBlog::Comments do
-        post("#{root}/:yyyy/:mm/:dd/:post_slug/comment") { |comments, request| comments.create(request['post_slug'], request['body']) }
+        post("#{root}/:yyyy/:mm/:dd/:post_slug/comment") { |comments, request| comments.create(request['post_slug'], request['comment']) }
       end
 
     end
