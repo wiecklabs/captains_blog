@@ -19,6 +19,7 @@ class CaptainsBlog::Setup < Harbor::Application
     end
 
     def setup(blog_params, user_params)
+      DataMapper.auto_upgrade!
       user = User.new(user_params)
       blog = Blog.new(blog_params)
 
@@ -26,8 +27,7 @@ class CaptainsBlog::Setup < Harbor::Application
       blog.valid?
 
       if user.valid? && blog.valid?
-        DataMapper.auto_upgrade!
-
+        Role.create(:name => "Guest", :description => "Guest role")
         admin_role = Role.create!(:name => "Admin", :description => "Site administrators")
         user.roles << admin_role
         user.save
