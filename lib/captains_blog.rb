@@ -14,7 +14,7 @@ require "dm-is-tree/is/version"
 gem "port_authority", ">= 1.0"
 require "port_authority"
 
-gem "redcloth"
+gem "RedCloth"
 require "redcloth"
 
 class CaptainsBlog < Harbor::Application
