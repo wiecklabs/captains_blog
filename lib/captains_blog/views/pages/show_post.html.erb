@@ -3,7 +3,7 @@
 <% unless @post.byline.empty? %><p class="byline"><%= @post.byline %></p><% end %>
 
 <div>
-  <%= @post.content %>
+  <%= RedCloth.new(@post.content).to_html %>
 </div>
 
 <%= render "pages/_comments" %>
