@@ -40,7 +40,7 @@ module CaptainsBlog::Helpers
   end
 
   def comments_panel(post)
-    return render(@blog.page('_comments'), :post => post)
+    return render(@blog.themed_article_path('_comments'), :article => post)
   end
   
   def blog_root(blog = nil)

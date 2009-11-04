@@ -1,4 +1,4 @@
-class Article
+class Article 
 
 	include DataMapper::Resource
 	include DataMapper::Timestamp
@@ -15,14 +15,11 @@ class Article
 	property :template_name, String, :size => 50
 
 	belongs_to :blog
-  # has n, :post_attributes
 	has n, :comments
 
 	has n, :taggings
 	has n, :tags, :through => :taggings
 
-  # has n, :categorizations
-  # has n, :categories, :through => :categorizations
   has n, :categories, :through => Resource
 
   before :save do
@@ -40,9 +37,3 @@ class Article
   end
 
 end
-
-class Post < Article
-end
-
-# class Page < Article
-# end

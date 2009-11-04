@@ -21,7 +21,7 @@ class Blog
     CaptainsBlog.root + "/#{slug}/"
   end
 
-  def page(path)
+  def themed_article_path(path)
     if self.slug && self.theme_name
       File.join(self.slug, "themes", self.theme_name, path)
     else

@@ -15,7 +15,7 @@ class Comment
   end
 
   belongs_to :user
-  belongs_to :post
+  belongs_to :article
 
   validates_present :commenter_name, :unless => :user
   validates_present :commenter_email, :unless => :user

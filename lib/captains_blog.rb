@@ -24,33 +24,16 @@ class CaptainsBlog < Harbor::Application
   module Admin; end
   module BlogAdmin; end
 
-  # Harbor::View::path.unshift(Pathname(__FILE__).dirname + "captains_blog/themes")
   Harbor::View::path.unshift(Pathname(__FILE__).dirname + "captains_blog/views")  
   
   Harbor::View.layouts.map("blog_admin/*", "layouts/blog_admin")
-  Harbor::View.layouts.map("pages/*", "layouts/blog")
+  Harbor::View.layouts.map("articles/*", "layouts/blog")
   Harbor::View.layouts.map("*", "layouts/application")
-
-  # def self.root
-  #   (Pathname(__FILE__).dirname + "captains_blog").expand_path
-  # end
-
-  # def self.script_root
-  #   root + "script"
-  # end
 
   def self.public_path
     Pathname(__FILE__).dirname.parent + "public"
   end
 
-  # def self.private_path
-  #   root + "private"
-  # end
-  # 
-  # def self.temp_path
-  #   root + "tmp"
-  # end
-  
   def self.root
     @root || '/blogs'
   end
@@ -127,11 +110,11 @@ class CaptainsBlog < Harbor::Application
 
       using services, CaptainsBlog::Pages do
         get(root) { |blog_pages| blog_pages.index }
-        get("#{root}/:yyyy/:mm/:dd/:post_slug") { |blog_pages, request| blog_pages.show(request['post_slug']) }
+        get("#{root}/:yyyy/:mm/:dd/:article_slug") { |blog_pages, request| blog_pages.show(request['article_slug']) }
       end
 
       using services, CaptainsBlog::Comments do
-        post("#{root}/:yyyy/:mm/:dd/:post_slug/comment") { |comments, request| comments.create(request['post_slug'], request['comment']) }
+        post("#{root}/:yyyy/:mm/:dd/:article_slug/comment") { |comments, request| comments.create(request['article_slug'], request['comment']) }
       end
 
     end
