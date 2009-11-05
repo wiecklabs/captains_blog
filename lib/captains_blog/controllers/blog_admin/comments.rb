@@ -5,9 +5,9 @@ class CaptainsBlog::BlogAdmin::Comments
     post = Post.first(:id => post_id)
     response.redirect! "#{CaptainsBlog::Helpers.blog_root(@blog)}/admin/",
       :message => "That post does not exist." if post.nil?
-
-    comments = post.comments.all(:order => [:approved.desc])
     
+    comments = post.comments.all(:order => [:created_at.desc])
+
     response.render "blog_admin/posts/comments", :post => post, :comments => comments, :blog => @blog
   end
 

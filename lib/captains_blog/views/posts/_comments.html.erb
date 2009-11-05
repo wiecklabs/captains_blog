@@ -19,15 +19,18 @@
   .required input { background: url(/images/required.gif) no-repeat 148px center; width: 146px; padding-right: 54px; }
 </style>
 <% end %>
-<% if @post.accepting_comments? || !@post.comments.empty? %>
+<% if @post.accepting_comments? || !@comments.empty? %>
 <div id="comments">
   <h5>
-    <%= size = @post.comments.size %> Comment<%= "s" unless size == 1 %><% unless @post.accepting_comments? %> (comments are closed)<% end %>
+    <%= size = @comments.size %> Comment<%= "s" unless size == 1 %><% unless @post.accepting_comments? %> (comments are closed)<% end %>
   </h5>
 
   <% @comments.each do |comment| %>
   <div class="comment">
-    <p class="meta"><strong class="author"><%= comment.user ? comment.user.name : comment.commenter_name %></strong> said on <span class="date"><%= comment.created_at %></span>:</p>
+    <p class="meta">
+      <strong class="author">
+        <%= comment.user ? comment.user.name : comment.commenter_name %>
+      </strong> said on <span class="date"><%= comment.created_at.strftime("%Y-%m-%d @ %H:%M") %></span>:</p>
     <p><%= comment.text %></p>
   </div>
   <% end %>
