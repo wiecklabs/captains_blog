@@ -1,4 +1,4 @@
-class Article 
+class Post 
 
 	include DataMapper::Resource
 	include DataMapper::Timestamp

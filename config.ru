@@ -15,7 +15,7 @@ DataMapper.setup :default, "sqlite3://#{Pathname(__FILE__).dirname.expand_path +
 UI::public_path = Pathname(__FILE__).dirname + "public"
 CaptainsBlog.root = "/blogs"
 CaptainsBlog.blog_repository = Pathname(__FILE__).dirname.expand_path + 'blogs'
-
+Comment.require_approvals!
 UI::AccountNavigation.register("Site Admin", "/admin")
 
 if $0 == __FILE__

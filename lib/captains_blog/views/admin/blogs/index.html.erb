@@ -2,6 +2,10 @@
 
 <ul>
   <% @blogs.each do |blog| %>
-  <li><a href="/admin/blogs/<%= blog.id %>"><%= blog.title %></a> (<a href="<%= blog_root(blog) %>/admin">admin</a>)</li>
+  <li>
+    <a href="/admin/blogs/<%= blog.id %>"><%= blog.title %></a> 
+    (<a href="<%= blog_root(blog) %>/admin">admin</a>)
+    (<a href="<%= blog_root(blog) %>">public view</a>)
+  </li>
   <% end %>
 </ul>

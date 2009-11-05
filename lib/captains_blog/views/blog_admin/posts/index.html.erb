@@ -1,0 +1,33 @@
+<ul class="links" id="tabnav-left">
+</ul>
+
+<ul class="links" id="tabnav-right">
+  <li><a href="<%= blog_root %>/admin/posts/new">+ New Post</a></li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Published</th>
+      <th>Comments</th>
+    </tr>
+  </thead>
+  <% @posts.each do |post| %>
+  <tr>
+    <td>
+      <a href="<%= blog_root %>/admin/posts/<%= post.id -%>"><%=h post.to_s %></a>
+      <a href="<%= blog_root %>/<%= post.published_at.strftime("%Y/%m/%d") %>/<%= post.slug %>">(view)</a>
+    </td>
+    <td><%= post.published_at.strftime("%Y-%m-%d @ %H:%M") %></td>
+    <td>
+      <a href="<%= blog_root %>/admin/posts/<%= post.id -%>/comments">
+        <%= post.comments.length %> Total 
+        <% if Comment.require_approvals? %>
+        / <%= post.comments.select {|c| !c.approved}.length  %> Unapproved
+        <% end %>
+      </a>
+    </td>
+  </tr>
+  <% end %>
+</table>

@@ -1,0 +1,28 @@
+<h2>Comments for Post: "<%= @post.title %>"</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Commenter</th>
+      <th>Date</th>
+      <th>Text</th>
+      <th>Approve/Disapprove</th>
+    </tr>
+  </thead>
+  <% @comments.each do |comment| %>
+  <tr class="<%= comment.approved ? "approved" : "disapproved" %>">
+    <td>
+      <%= comment.commenter_display_name %>
+    </td>
+    <td><%= comment.created_at.strftime("%Y-%m-%d @ %H:%M") %></td>
+    <td><%= snippet(comment.text) %></td>
+    <td>
+      <% if comment.approved %>
+        <a href="<%= blog_root %>/admin/comments/<%= comment.id %>/disapprove">Click to Disapprove</a>
+      <% else %>
+        <a href="<%= blog_root %>/admin/comments/<%= comment.id %>/approve">Click to Approve</a>
+      <% end %>
+    </td>
+  </tr>
+  <% end %>
+</table>

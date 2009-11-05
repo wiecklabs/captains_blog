@@ -1,0 +1,55 @@
+<%
+  if @post.new_record?
+    resource_path = "#{blog_root}/admin/posts"
+    form_method = :post
+    offer_delete = false
+  else
+    resource_path = "#{blog_root}/admin/posts/#{@post.id}"
+    form_method = :put
+    offer_delete = true
+  end
+%>
+
+<% head do %>
+<style type="text/css" media="screen">
+  form fieldset textarea { width: 500px; }
+</style>
+<% end %>
+
+<% form(resource_path, :method => form_method) do %>
+  <fieldset>
+    <label for="post_title">Title</label>
+    <input type="text" id="post_title" name="post[title]" value="<%=h @post.title -%>">
+
+    <label for="post_slug">Slug</label>
+    <input type="text" id="post_slug" name="post[slug]" value="<%=h @post.slug -%>">
+
+    <label for="post_byline">Byline</label>
+    <input type="text" id="post_byline" name="post[byline]" value="<%= h @post.byline || me.name %>">
+
+    <label for="post_comments">Comments Enabled?</label>
+    <input type="hidden" name="post[accepting_comments]" value="0">
+    <input type="checkbox" name="post[accepting_comments]" value="1" <%= 'checked' if @post.accepting_comments? %>>
+
+    <label for="post_url">Publish Date/Time</label>
+    <%= UI::DateTimeTextBox.new(self, @post, "post", "published_at") %>
+
+    <label for="post_content">Content</label>
+    <textarea id="post_content" name="post[content]" rows="30"><%=h @post.content -%></textarea>
+  </fieldset>
+  
+  <fieldset>
+    <legend>Categories</legend>
+
+    <%= render 'blog_admin/categories/_checkbox_list', :categories => Category.roots, :selected_categories => @post.categories.entries %>
+  </fieldset>
+  
+  <input type="submit" value="Save">
+<% end %>
+
+<% if offer_delete %>
+  <% form(resource_path, :method => :delete) do %>
+    <input type="submit" value="Delete">
+  <% end %>
+<% end %>
+

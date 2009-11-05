@@ -27,7 +27,7 @@ class CaptainsBlog < Harbor::Application
   Harbor::View::path.unshift(Pathname(__FILE__).dirname + "captains_blog/views")  
   
   Harbor::View.layouts.map("blog_admin/*", "layouts/blog_admin")
-  Harbor::View.layouts.map("articles/*", "layouts/blog")
+  Harbor::View.layouts.map("posts/*", "layouts/blog")
   Harbor::View.layouts.map("*", "layouts/application")
 
   def self.public_path
@@ -90,13 +90,13 @@ class CaptainsBlog < Harbor::Application
         get("#{root}/admin") { |blog| blog.dashboard }
       end
 
-      using services, CaptainsBlog::BlogAdmin::Articles do        
-        get("#{root}/admin/articles") { |articles| articles.index }
-        post("#{root}/admin/articles") { |articles, params| articles.create(params.fetch('article', {}), params.fetch('categories', [])) }
-        get("#{root}/admin/articles/new") { |articles, params| articles.new }
-        get("#{root}/admin/articles/:id") { |articles, params| articles.edit(params['id'].to_i) }
-        put("#{root}/admin/articles/:id") { |articles, params| articles.update(params['id'].to_i, params.fetch('article', {}), params.fetch('categories', [])) }
-        delete("#{root}/admin/articles/:id") { |articles, params| articles.delete(params['id'].to_i) }
+      using services, CaptainsBlog::BlogAdmin::Posts do        
+        get("#{root}/admin/posts") { |posts| posts.index }
+        post("#{root}/admin/posts") { |posts, params| posts.create(params.fetch('post', {}), params.fetch('categories', [])) }
+        get("#{root}/admin/posts/new") { |posts, params| posts.new }
+        get("#{root}/admin/posts/:id") { |posts, params| posts.edit(params['id'].to_i) }
+        put("#{root}/admin/posts/:id") { |posts, params| posts.update(params['id'].to_i, params.fetch('post', {}), params.fetch('categories', [])) }
+        delete("#{root}/admin/posts/:id") { |posts, params| posts.delete(params['id'].to_i) }
       end
 
       using services, CaptainsBlog::BlogAdmin::Categories do
@@ -108,13 +108,19 @@ class CaptainsBlog < Harbor::Application
         delete("#{root}/admin/categories/:id") { |categories, params| categories.delete(params['id'].to_i) }
       end
 
-      using services, CaptainsBlog::Pages do
-        get(root) { |blog_pages| blog_pages.index }
-        get("#{root}/:yyyy/:mm/:dd/:article_slug") { |blog_pages, request| blog_pages.show(request['article_slug']) }
+      using services, CaptainsBlog::BlogAdmin::Comments do
+        get("#{root}/admin/posts/:id/comments") { |comments, params| comments.index(params['id'].to_i)}
+        get("#{root}/admin/comments/:comment_id/approve") { |comments, params| comments.approve(params['comment_id'].to_i)}
+        get("#{root}/admin/comments/:comment_id/disapprove") { |comments, params| comments.disapprove(params['comment_id'].to_i)}
       end
 
       using services, CaptainsBlog::Comments do
-        post("#{root}/:yyyy/:mm/:dd/:article_slug/comment") { |comments, request| comments.create(request['article_slug'], request['comment']) }
+        post("#{root}/:yyyy/:mm/:dd/:post_slug/comment") { |comments, request| comments.create(request['post_slug'], request['comment']) }
+      end
+      
+      using services, CaptainsBlog::Posts do
+        get("#{root}") {|blog_posts, request| blog_posts.index }
+        get("#{root}/:yyyy/:mm/:dd/:post_slug") { |blog_posts, request| blog_posts.show(request['post_slug']) }
       end
 
     end
@@ -140,12 +146,10 @@ class Fixnum
 	end
 end
 
-require "captains_blog/models/article"
+require "captains_blog/models/post"
 require "captains_blog/models/blog"
 require "captains_blog/models/category"
 require "captains_blog/models/comment"
-require "captains_blog/models/page"
-require "captains_blog/models/page_attribute"
 require "captains_blog/models/tag"
 require "captains_blog/models/tagging"
 require "captains_blog/models/template"
@@ -153,10 +157,11 @@ require "captains_blog/models/template"
 require "captains_blog/setup"
 require "captains_blog/controllers/blogs"
 require "captains_blog/controllers/comments"
-require "captains_blog/controllers/pages"
-require "captains_blog/controllers/blog_admin/articles"
+require "captains_blog/controllers/posts"
+require "captains_blog/controllers/blog_admin/posts"
 require "captains_blog/controllers/blog_admin/blog"
 require "captains_blog/controllers/blog_admin/categories"
 require "captains_blog/controllers/blog_admin/links"
+require "captains_blog/controllers/blog_admin/comments"
 
 require "captains_blog/helpers"

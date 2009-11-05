@@ -12,7 +12,7 @@ class Blog
   validates_is_unique :slug
   validates_present :slug, :title
 
-  has n, :articles
+  has n, :posts
 
   has n, :taggings
   has n, :tags, :through => :taggings
@@ -21,7 +21,7 @@ class Blog
     CaptainsBlog.root + "/#{slug}/"
   end
 
-  def themed_article_path(path)
+  def themed_post_path(path)
     if self.slug && self.theme_name
       File.join(self.slug, "themes", self.theme_name, path)
     else

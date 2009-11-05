@@ -5,7 +5,7 @@
 
 	<div class="info">
 		<span class="date"><%= @post.published_at.strftime('%B %d, %Y') -%></span>
-		<span class="editpost"><a href="<%= blog_root %>/admin/articles/<%= @post.id -%>">Edit</a></span>
+		<span class="editpost"><a href="<%= blog_root %>/admin/posts/<%= @post.id -%>">Edit</a></span>
 		<span class="addcomment"><a href="#respond">Leave a comment</a></span>
 	</div>
 	

@@ -25,7 +25,7 @@
     <%= size = @post.comments.size %> Comment<%= "s" unless size == 1 %><% unless @post.accepting_comments? %> (comments are closed)<% end %>
   </h5>
 
-  <% @post.comments.each do |comment| %>
+  <% @comments.each do |comment| %>
   <div class="comment">
     <p class="meta"><strong class="author"><%= comment.user ? comment.user.name : comment.commenter_name %></strong> said on <span class="date"><%= comment.created_at %></span>:</p>
     <p><%= comment.text %></p>

@@ -40,14 +40,17 @@ module CaptainsBlog::Helpers
   end
 
   def comments_panel(post)
-    return render(@blog.themed_article_path('_comments'), :article => post)
+    return render(@blog.themed_post_path('_comments'), :post => post)
   end
   
   def blog_root(blog = nil)
     "#{CaptainsBlog.root}/#{blog ? blog.slug : @blog.slug}"
   end
   module_function :blog_root
-
+  
+  def snippet(text, wordcount = 30)
+    text.gsub(/^(.{#{wordcount}}[\w.]*)(.*)/m) {$2.empty? ? $1 : $1 + '...'}
+  end 
 end
 
 Harbor::ViewContext.send(:include, CaptainsBlog::Helpers)
