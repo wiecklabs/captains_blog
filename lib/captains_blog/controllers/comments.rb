@@ -1,4 +1,5 @@
 class CaptainsBlog::Comments
+  include PortAuthority::Authorization
   
   attr_accessor :request, :response, :logger, :blog
 

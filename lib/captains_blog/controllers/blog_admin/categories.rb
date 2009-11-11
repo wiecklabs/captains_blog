@@ -1,23 +1,29 @@
 class CaptainsBlog::BlogAdmin::Categories
-  
+  include PortAuthority::Authorization
+
   attr_accessor :request, :response, :logger, :blog
 
+  protect
   def index
     response.render "blog_admin/categories/index", :categories => Category.roots, :blog => @blog
   end
 
+  protect
   def show(category_id)
     response.render "blog_admin/categories/show", :category => Category.get(category_id), :blog => @blog
   end
 
+  protect
   def new
     response.render "blog_admin/categories/new", :category => Category.new, :blog => @blog
   end
 
+  protect
   def edit(category_id)
     response.render "blog_admin/categories/edit", :category => Category.get(category_id), :blog => @blog
   end
 
+  protect
   def create(category_params)
     category = Category.new
     category.attributes = category_params
@@ -29,6 +35,7 @@ class CaptainsBlog::BlogAdmin::Categories
     end
   end
 
+  protect
   def update(category_id, category_params)
     category = Category.get(category_id)
     category.attributes = category_params
@@ -40,6 +47,7 @@ class CaptainsBlog::BlogAdmin::Categories
     end
   end
 
+  protect
   def delete(category_id)
     category = Category.get(category_id)
 

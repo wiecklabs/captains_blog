@@ -1,6 +1,9 @@
 class CaptainsBlog::BlogAdmin::Comments
+  include PortAuthority::Authorization
+
   attr_accessor :request, :response, :logger, :blog
 
+  protect
   def index(post_id)
     post = Post.first(:id => post_id)
     response.redirect! "#{CaptainsBlog::Helpers.blog_root(@blog)}/admin/",
@@ -11,6 +14,7 @@ class CaptainsBlog::BlogAdmin::Comments
     response.render "blog_admin/posts/comments", :post => post, :comments => comments, :blog => @blog
   end
 
+  protect
   def approve(comment_id)
     comment = Comment.first(:id => comment_id)
     
@@ -28,6 +32,7 @@ class CaptainsBlog::BlogAdmin::Comments
     end
   end
 
+  protect
   def disapprove(comment_id)
     comment = Comment.first(:id => comment_id)
     
