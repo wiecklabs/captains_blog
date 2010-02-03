@@ -21,7 +21,7 @@ class Comment
   validates_present :commenter_email, :unless => :user
   
   def self.require_approvals?
-    self.properties.map { |property| property.name }.include?(:approved)
+    CaptainsBlog.approvals_required?
   end
 
   def commenter_display_name
