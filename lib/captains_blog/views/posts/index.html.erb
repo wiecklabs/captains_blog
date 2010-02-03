@@ -1,5 +1,6 @@
 <% if @posts && @posts.any? %>
   <% for post in @posts %>
+  <% total_comments = post.approved_comments.size %>
 	<div class="post">
 		<h3><a class="title" href="<%= @blog.root + post.path %>" rel="bookmark"><%= post.title %></a></h3>
 		<div class="info">
@@ -8,9 +9,9 @@
         <% unless post.accepting_comments? %>
           <span>Comments off</span>
         <% end %>
-    
-        <% if post.comments.size > 0 %>
-          <a href="<%= @blog.root + post.path %>#comments" title="Comment on HTML"><%= post.comments.size %> comment<%= 's' if post.comments.size > 1 %></a>
+
+        <%  if total_comments > 0 %>
+          <a href="<%= @blog.root + post.path %>#comments" title="Comment on HTML"><%= total_comments %> comment<%= 's' if total_comments > 1 %></a>
         <% else %>
           <a href="<%= @blog.root + post.path %>#comments" title="Leave a Comment">Be the first to comment!</a>
         <% end %>

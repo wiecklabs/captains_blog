@@ -10,7 +10,7 @@ class CaptainsBlog::Posts
     post = blog.posts.first(:slug => slug.downcase)
     response.abort!(404) unless post
     
-    comments = Comment.require_approvals? ? post.comments.all(:approved => true) : post.comments
+    comments = post.approved_comments
 
     response.render blog.themed_post_path('posts/show_post'), :blog => blog, :post => post, :comments => comments
   end

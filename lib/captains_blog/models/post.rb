@@ -36,4 +36,12 @@ class Post
     "#{published_at.strftime("%Y/%m/%d")}/#{slug}"
   end
 
+  def approved_comments
+    if Comment.require_approvals?
+      comments(:approved => true)
+    else
+      comments
+    end
+  end
+
 end
