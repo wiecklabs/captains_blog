@@ -11,7 +11,7 @@ class CaptainsBlog::Comments
     comment = Comment.new(params.merge(:post => post, :text => body))
 
     if body.blank?
-      return response.render blog.themed_post_path('posts/show_post'), :comment => comment, :blog => blog, :post => post,
+      return response.render blog.themed_post_path('posts/show_post'), :comment => comment, :blog => blog, :post => post, :comments => post.approved_comments,
         :error => 'Please <a href="#comment-form">provide a comment</a> before submitting.'
     end
 
@@ -24,7 +24,7 @@ class CaptainsBlog::Comments
       end
     else
       response.errors << UI::ErrorMessages::DataMapperErrors.new(comment)
-      response.render blog.themed_post_path('posts/show_post'), :comment => comment, :blog => blog, :post => post
+      response.render blog.themed_post_path('posts/show_post'), :comment => comment, :blog => blog, :post => post, :comments => post.approved_comments
     end
   end
 
