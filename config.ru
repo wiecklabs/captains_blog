@@ -11,6 +11,7 @@ services.register("mailer", Harbor::Mailer)
 services.register("mail_server", Harbor::MailServers::Sendmail)
 
 DataMapper.setup :default, "sqlite3://#{Pathname(__FILE__).dirname.expand_path + "captains_blog.db"}"
+DataObjects::Sqlite3.logger = DataObjects::Logger.new(Pathname(__FILE__).dirname + "log/db.log", :debug)
 
 UI::public_path = Pathname(__FILE__).dirname + "public"
 CaptainsBlog.root = "/blogs"
