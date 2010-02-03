@@ -16,12 +16,14 @@ class CaptainsBlog::Comments
     end
 
     if comment.save
-      if CaptainsBlog.approvals_required?
-        response.redirect! "#{CaptainsBlog::Helpers.blog_root(@blog)}/#{post.path}",
-          :message => 'Your comment has been submitted, and will be posted after review.'
-      else
-        response.redirect! "#{CaptainsBlog::Helpers.blog_root(@blog)}/#{post.path}"
-      end
+      message = if CaptainsBlog.approvals_required?
+          'Your comment has been submitted and will be appear after review.'
+        else
+          'Thanks for commenting.'
+        end
+
+      response.redirect! "#{CaptainsBlog::Helpers.blog_root(@blog)}/#{post.path}",
+          :message => message
     else
       response.errors << UI::ErrorMessages::DataMapperErrors.new(comment)
       response.render blog.themed_post_path('posts/show_post'), :comment => comment, :blog => blog, :post => post, :comments => post.approved_comments

@@ -1,3 +1,9 @@
+<% head "message" do %>
+<style type="text/css" media="screen">
+  .message { background-color: #0A0; color: #FFF; padding: 0 4px;}
+</style>
+<% end %>
+
 <%= @error ? "<div class=\"errors\"><p>#{@error}</p></div>" : UI::ErrorMessages.new(self, "Your comment could not be created:", response.errors) %>
 <h3><%= @post.title %></h3>
 <% unless @post.byline.empty? %><p class="byline"><%= @post.byline %></p><% end %>
