@@ -5,7 +5,7 @@ class Comment
 
   property :id, Serial
   property :commenter_name, String, :size => 200
-  property :commenter_email, String , :size => 200
+  property :commenter_email, String , :size => 200, :format => :email_address
   property :commenter_website, String, :size => 200
   property :text, Text
   property :created_at, DateTime
