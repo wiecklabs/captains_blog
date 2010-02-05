@@ -10,6 +10,10 @@ services = Harbor::Container.new
 services.register("mailer", Harbor::Mailer)
 services.register("mail_server", Harbor::MailServers::Sendmail)
 
+logger = Logging.logger((Pathname(__FILE__).dirname + "log/app.log").to_s)
+logger.level = ENV["LOG_LEVEL"] || :debug
+services.register("logger", logger)
+
 DataMapper.setup :default, "sqlite3://#{Pathname(__FILE__).dirname.expand_path + "captains_blog.db"}"
 DataObjects::Sqlite3.logger = DataObjects::Logger.new(Pathname(__FILE__).dirname + "log/db.log", :debug)
 
@@ -26,6 +30,12 @@ elsif $0['rake']
   # Require rake tasks here
   # require "some/rake/tasks"
 else
+  if ENV['ENVIRONMENT'] == 'development'
+   require "harbor/contrib/debug"
+   DataObjects::Sqlite3.logger = Logging::Logger.root
+   use Harbor::Contrib::Debug
+  end
+
   run Harbor::Cascade.new(
     ENV['ENVIRONMENT'],
     services,
