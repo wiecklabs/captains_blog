@@ -1,3 +1,10 @@
+<% head do %>
+<style type="text/css" media="screen">
+  .post { border-bottom: #CCCCCC solid 1px; }
+</style>
+<% end %>
+
+
 <% if @posts && @posts.any? %>
   <% for post in @posts %>
   <% total_comments = post.approved_comments.size %>
