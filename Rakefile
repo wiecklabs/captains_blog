@@ -2,6 +2,16 @@ require "rubygems"
 require "pathname"
 require "rake"
 
+require "rake/testtask"
+
+task :default => :test
+
+# Tests
+Rake::TestTask.new do |t|
+  t.test_files = 'test/**/*_test.rb'
+end
+
+
 # Gem
 require "rake/gempackagetask"
 
