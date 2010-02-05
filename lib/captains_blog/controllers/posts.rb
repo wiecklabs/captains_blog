@@ -3,7 +3,8 @@ class CaptainsBlog::Posts
   attr_accessor :request, :response, :logger, :blog
 
   def index
-    response.render blog.themed_post_path("posts/index"), :blog => blog, :posts => blog.posts
+    posts = blog.posts(:order => [:published_at.desc])
+    response.render blog.themed_post_path("posts/index"), :blog => blog, :posts => posts
   end
 
   def show(slug)
