@@ -146,6 +146,8 @@ class Fixnum
 	end
 end
 
+# TODO: What about setting up an autoloader?
+
 require "captains_blog/models/post"
 require "captains_blog/models/blog"
 require "captains_blog/models/category"
@@ -153,12 +155,14 @@ require "captains_blog/models/comment"
 require "captains_blog/models/tag"
 require "captains_blog/models/tagging"
 require "captains_blog/models/template"
+require "captains_blog/models/author"
 
 require "captains_blog/setup"
 require "captains_blog/controllers/blogs"
 require "captains_blog/controllers/comments"
 require "captains_blog/controllers/posts"
 require "captains_blog/controllers/blog_admin/posts"
+require "captains_blog/controllers/blog_admin/authors"
 require "captains_blog/controllers/blog_admin/blog"
 require "captains_blog/controllers/blog_admin/categories"
 require "captains_blog/controllers/blog_admin/links"

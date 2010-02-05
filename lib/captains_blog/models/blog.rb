@@ -14,6 +14,8 @@ class Blog
 
   has n, :posts
 
+  has n, :authors
+
   has n, :taggings
   has n, :tags, :through => :taggings
 
