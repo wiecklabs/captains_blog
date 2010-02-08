@@ -10,16 +10,16 @@ module Unit
       @user = create_user
     end
 
-    def test_byline_defaults_to_user_name
+    def test_to_string_defaults_to_user_name
       author = Author.create(:user_id => @user.id)
 
-      assert_equal @user.name, author.byline
+      assert_equal @user.name, author.to_s
     end
 
-    def test_assigning_byline
+    def test_to_string_returns_byline
       author = Author.create(:user_id => @user.id, :byline => 'Little Richard')
 
-      assert_equal 'Little Richard', author.byline
+      assert_equal 'Little Richard', author.to_s
     end
 
     def test_byline_is_required_if_no_user_associated

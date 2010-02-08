@@ -7,7 +7,7 @@ class Author
   belongs_to :blogs
   belongs_to :user
 
-  def byline
+  def to_s
     return user.name unless user.nil? or attribute_get(:byline)
 
     attribute_get(:byline)
