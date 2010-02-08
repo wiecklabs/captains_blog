@@ -108,6 +108,15 @@ class CaptainsBlog < Harbor::Application
         delete("#{root}/admin/categories/:id") { |categories, params| categories.delete(params['id'].to_i) }
       end
 
+      using services, CaptainsBlog::BlogAdmin::Authors do
+        get("#{root}/admin/authors") { |authors| authors.index }
+        post("#{root}/admin/authors") { |authors, params| authors.add(params.fetch('author', {})) }
+        get("#{root}/admin/authors/new") { |authors, params| authors.new }
+        get("#{root}/admin/authors/:id") { |authors, params| authors.edit(params['id'].to_i) }
+        put("#{root}/admin/authors/:id") { |authors, params| authors.update(params['id'].to_i, params.fetch('author', {})) }
+        delete("#{root}/admin/authors/:id") { |authors, params| authors.delete(params['id'].to_i) }
+      end
+
       using services, CaptainsBlog::BlogAdmin::Comments do
         get("#{root}/admin/posts/:id/comments") { |comments, params| comments.index(params['id'].to_i)}
         get("#{root}/admin/comments/:comment_id/approve") { |comments, params| comments.approve(params['comment_id'].to_i)}

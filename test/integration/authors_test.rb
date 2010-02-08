@@ -26,6 +26,12 @@ module Integration
       assert_equal 1, @blog.reload.authors.size
     end
 
+    def test_redirects_after_creation
+      @controller.add({'byline' => 'John'})
+
+      assert_redirect @controller.response
+    end
+
     def test_delete
       author = @blog.authors.new(:user_id => @user.id)
       author.save!
@@ -33,6 +39,15 @@ module Integration
       @controller.delete(author.id)
 
       assert_equal 0, @blog.reload.authors.size
+    end
+
+    def test_redirects_after_deletion
+      author = @blog.authors.new(:user_id => @user.id)
+      author.save!
+      
+      @controller.delete(author.id)
+
+      assert_redirect @controller.response
     end
   end
 end

@@ -1,0 +1,41 @@
+<%
+if @author.new_record?
+  resource_path = "#{blog_root}/admin/authors"
+  form_method = :post
+  offer_delete = false
+else
+  resource_path = "#{blog_root}/admin/authors/#{@author.id}"
+  form_method = :put
+  offer_delete = true
+end
+%>
+
+<% head do %>
+  <style type="text/css">
+    fieldset { width: 64em; }
+  </style>
+<% end %>
+
+<% form(resource_path, :method => form_method) do %>
+  <fieldset>
+    <label for="author_byline">Byline</label>
+    <input type="text" id="author_byline" name="author[byline]" value="<%=h @author.byline -%>" />
+
+    <label for="author_user">User</label>
+    <select id="author_user" name="author[user_id]">
+      <option></option>
+      <% @users.each do |user| %>
+        <option value="<%=user.id%>"<%= (@author.user_id == user.id) ? ' selected' : '' -%>><%=h user.name -%>, <%=h user.email -%></option>
+      <% end %>
+    </select>
+  </fieldset>
+
+  <input type="submit" value="Save" />
+<% end %>
+
+<% if offer_delete %>
+  <% form(resource_path, :method => :delete) do %>
+    <input type="submit" value="Delete" onclick="return confirm('Are you sure?')" />
+  <% end %>
+<% end %>
+

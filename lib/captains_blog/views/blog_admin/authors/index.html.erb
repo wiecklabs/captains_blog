@@ -1,0 +1,20 @@
+<ul class="links" id="tabnav-right">
+  <li><a href="<%= blog_root %>/admin/authors/new">+ Add Author</a></li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Byline</th>
+      <th>Assigned to</th>
+    </tr>
+  </thead>
+  <% @authors.each do |author| %>
+  <tr>
+    <td>  
+      <a href="<%= blog_root %>/admin/authors/<%= author.id -%>"><%=h author.to_s %></a>
+    </td>
+    <td><%=h author.user ? author.user.name : '-' %></td>
+  </tr>
+  <% end %>
+</table>

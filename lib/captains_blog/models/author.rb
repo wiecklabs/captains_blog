@@ -8,7 +8,7 @@ class Author
   belongs_to :user
 
   def to_s
-    return user.name unless user.nil? or attribute_get(:byline)
+    return user.name if attribute_get(:byline).nil? or attribute_get(:byline).empty?
 
     attribute_get(:byline)
   end
