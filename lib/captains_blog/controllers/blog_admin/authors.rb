@@ -4,8 +4,8 @@ class CaptainsBlog::BlogAdmin::Authors
 
   attr_accessor :request, :response, :blog
 
-  def add(user_id)
-    blog.authors.new(:user_id => user_id).save!
+  def add(params)
+    blog.authors.new(params).save
   end
 
   def delete(author_id)

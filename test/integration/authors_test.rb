@@ -21,7 +21,7 @@ module Integration
     end
 
     def test_add
-      @controller.add(@user.id)
+      @controller.add({'byline' => 'John'})
 
       assert_equal 1, @blog.reload.authors.size
     end
