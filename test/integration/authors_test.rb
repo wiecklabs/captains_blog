@@ -8,8 +8,8 @@ module Integration
     include Harbor::Test
 
     def setup
-      @blog = Blog.create!(:slug => 'my_blog', :title => 'My Blog')
-      @user = User.create!(:email => 'sample@example.com', :password => 'example', :password_confirmation => 'example')
+      @blog = create_blog
+      @user = create_user
 
       container = Harbor::Container.new
       container.register(:authors, CaptainsBlog::BlogAdmin::Authors)

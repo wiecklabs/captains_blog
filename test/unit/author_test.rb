@@ -6,8 +6,8 @@ module Unit
   class AuthorTest < Test::Unit::TestCase
 
     def setup
-      @blog = Blog.create!(:slug => 'my_blog', :title => 'My Blog')
-      @user = User.create!(:first_name => 'Richard', :last_name => 'Penniman', :email => 'jimi@hendrix.com', :password => 'example', :password_confirmation => 'example')
+      @blog = create_blog
+      @user = create_user
     end
 
     def test_byline_defaults_to_user_name
