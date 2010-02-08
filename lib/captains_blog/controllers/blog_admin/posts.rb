@@ -16,12 +16,12 @@ class CaptainsBlog::BlogAdmin::Posts
 
   protect
   def new
-    response.render "blog_admin/posts/new", :post => Post.new, :blog => @blog
+    response.render "blog_admin/posts/new", :post => Post.new, :blog => @blog, :authors => @blog.authors
   end
 
   protect
   def edit(post_id)
-    response.render "blog_admin/posts/edit", :post => Post.get(post_id), :blog => @blog
+    response.render "blog_admin/posts/edit", :post => Post.get(post_id), :blog => @blog, :authors => @blog.authors
   end
 
   protect
@@ -35,7 +35,7 @@ class CaptainsBlog::BlogAdmin::Posts
     if post.save
       response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/#{post.id}", :message => "Saved Post #{post.to_s}"
     else
-      response.render "blog_admin/posts/new", :post => post, :blog => @blog
+      response.render "blog_admin/posts/new", :post => post, :blog => @blog, :authors => @blog.authors
     end
   end
 
@@ -52,7 +52,7 @@ class CaptainsBlog::BlogAdmin::Posts
     if post.save
       response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/#{post.id}", :message => "Saved Post #{post.to_s}"
     else
-      response.render "blog_admin/posts/edit", :post => post, :blog => @blog
+      response.render "blog_admin/posts/edit", :post => post, :blog => @blog, :authors => @blog.authors
     end
   end
 
@@ -66,7 +66,7 @@ class CaptainsBlog::BlogAdmin::Posts
       if post.destroy
         response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts", :message => "Deleted Post #{post.to_s}"
       else
-        response.render "blog_admin/posts/show", :post => post
+        response.render "blog_admin/posts/show", :post => post, :authors => @blog.authors
       end
     end
   end

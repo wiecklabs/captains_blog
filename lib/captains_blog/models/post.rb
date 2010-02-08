@@ -7,7 +7,6 @@ class Post
 	property :type, Discriminator
 	property :slug, String, :size => 200
 	property :title, String, :size => 300
-	property :byline, String, :size => 200
 	property :content, Text
 	property :published_at, DateTime, :default => lambda { Time.now }
 	property :accepting_comments, Boolean, :default => true
@@ -16,6 +15,8 @@ class Post
 
 	belongs_to :blog
 	has n, :comments
+
+  belongs_to :author
 
 	has n, :taggings
 	has n, :tags, :through => :taggings
@@ -43,5 +44,4 @@ class Post
       comments
     end
   end
-
 end

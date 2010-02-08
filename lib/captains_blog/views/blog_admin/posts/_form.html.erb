@@ -25,8 +25,13 @@
     <label for="post_slug">Slug</label>
     <input type="text" id="post_slug" name="post[slug]" value="<%=h @post.slug -%>">
 
-    <label for="post_byline">Byline</label>
-    <input type="text" id="post_byline" name="post[byline]" value="<%= h @post.byline || me.name %>">
+    <label for="post_author">Author</label>
+    <select id="post_author" name="post[author_id]">
+      <option></option>
+      <% @authors.each do |author| %>
+        <option value="<%=author.id%>"<%= (@post.author_id == author.id) ? ' selected' : '' -%>><%=h author.to_s -%></option>
+      <% end %>
+    </select>
 
     <label for="post_comments">Comments Enabled?</label>
     <input type="hidden" name="post[accepting_comments]" value="0">
