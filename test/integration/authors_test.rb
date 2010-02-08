@@ -15,7 +15,9 @@ module Integration
       container.register(:authors, CaptainsBlog::BlogAdmin::Authors)
       container.register(:request, Request)
       container.register(:response, Response)
+      container.register(:session, Session.new({:user_id => @user.id}))
       container.register(:blog, @blog)
+      Session.new({:user_id => nil})
 
       @controller = container.get(:authors)
     end

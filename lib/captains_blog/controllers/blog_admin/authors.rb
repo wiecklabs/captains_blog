@@ -32,7 +32,7 @@ class CaptainsBlog::BlogAdmin::Authors
     end
   end
 
-  # TODO protect methods below and remember that tests will break
+  protect
   def add(params)
     author = blog.authors.new(params)
     if author.save
@@ -42,6 +42,7 @@ class CaptainsBlog::BlogAdmin::Authors
     end
   end
 
+  protect
   def delete(author_id)
     author = Author.first(:id => author_id, :blog_id => @blog.id)
     
