@@ -32,6 +32,8 @@ class Blog
   end
 
   def author?(user)
-    self.authors.first(:user_id => user.id)
+    user = user.id if user.is_a?(User)
+
+    self.authors.first(:user_id => user)
   end
 end

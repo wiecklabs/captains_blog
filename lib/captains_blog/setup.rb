@@ -27,12 +27,14 @@ class CaptainsBlog::Setup < Harbor::Application
       blog.valid?
 
       if user.valid? && blog.valid?
+        blog.save
+
         Role.create(:name => "Guest", :description => "Guest role")
         admin_role = Role.create!(:name => "Admin", :description => "Site administrators")
         user.roles << admin_role
         user.save
 
-        # We'll give our new user full permissions
+        # We'll give our new user full permissions...
         PermissionSet::permissions.each do |name, permissions|
           role = RolePermissionSet.new(:role => admin_role, :name => name)
           role.add *permissions
@@ -40,7 +42,8 @@ class CaptainsBlog::Setup < Harbor::Application
           role.propagate_permissions!
         end
 
-        blog.save
+        # ... and add as an author
+        blog.authors.new(:user_id => user.id).save!        
 
         request.application.router.clear
         request.session[:user_id] = user.id

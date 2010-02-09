@@ -3,27 +3,27 @@ class CaptainsBlog::BlogAdmin::Categories
 
   attr_accessor :request, :response, :logger, :blog
 
-  protect
+  deny_unless_author
   def index
     response.render "blog_admin/categories/index", :categories => Category.roots, :blog => @blog
   end
 
-  protect
+  deny_unless_author
   def show(category_id)
     response.render "blog_admin/categories/show", :category => Category.get(category_id), :blog => @blog
   end
 
-  protect
+  deny_unless_author
   def new
     response.render "blog_admin/categories/new", :category => Category.new, :blog => @blog
   end
 
-  protect
+  deny_unless_author
   def edit(category_id)
     response.render "blog_admin/categories/edit", :category => Category.get(category_id), :blog => @blog
   end
 
-  protect
+  deny_unless_author
   def create(category_params)
     category = Category.new
     category.attributes = category_params
@@ -35,7 +35,7 @@ class CaptainsBlog::BlogAdmin::Categories
     end
   end
 
-  protect
+  deny_unless_author
   def update(category_id, category_params)
     category = Category.get(category_id)
     category.attributes = category_params
@@ -47,7 +47,7 @@ class CaptainsBlog::BlogAdmin::Categories
     end
   end
 
-  protect
+  deny_unless_author
   def delete(category_id)
     category = Category.get(category_id)
 

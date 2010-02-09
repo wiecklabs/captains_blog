@@ -167,6 +167,7 @@ require "captains_blog/models/template"
 require "captains_blog/models/author"
 
 require "captains_blog/setup"
+require "captains_blog/authorization"
 require "captains_blog/controllers/blogs"
 require "captains_blog/controllers/comments"
 require "captains_blog/controllers/posts"
