@@ -48,7 +48,7 @@
   </head>
   <body>
     <div class="header">
-      <h1>Captain's Blog Admin</h1>
+      <h1><%= @blog.title -%> - Admin</h1>
 
       <%= UI::AccountNavigation.new(self) if me %>
     </div>
