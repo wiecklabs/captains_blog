@@ -28,6 +28,9 @@ class CaptainsBlog::Blogs
     blog = Blog.new(blog_params)
 
     if blog.save
+      # current user will always be added as an author to blog
+      blog.authors.new(:user => request.session.user).save!
+
       response.redirect "/admin/blogs", :message => "'#{blog.title}' was created."
     else
       response.render "admin/blogs/new", :blog => blog
