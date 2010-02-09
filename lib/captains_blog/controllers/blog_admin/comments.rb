@@ -3,7 +3,7 @@ class CaptainsBlog::BlogAdmin::Comments
 
   attr_accessor :request, :response, :logger, :blog
 
-  protect
+  deny_unless_author
   def index(post_id)
     post = Post.first(:id => post_id)
     response.redirect! "#{CaptainsBlog::Helpers.blog_root(@blog)}/admin/",
@@ -14,7 +14,7 @@ class CaptainsBlog::BlogAdmin::Comments
     response.render "blog_admin/posts/comments", :post => post, :comments => comments, :blog => @blog
   end
 
-  protect
+  deny_unless_author
   def approve(comment_id)
     comment = Comment.first(:id => comment_id)
     
@@ -32,7 +32,7 @@ class CaptainsBlog::BlogAdmin::Comments
     end
   end
 
-  protect
+  deny_unless_author
   def disapprove(comment_id)
     comment = Comment.first(:id => comment_id)
     

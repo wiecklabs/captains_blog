@@ -4,27 +4,27 @@ class CaptainsBlog::BlogAdmin::Posts
   
   attr_accessor :request, :response, :logger, :blog
 
-  protect
+  deny_unless_author
   def index
     response.render "blog_admin/posts/index", :posts => Post.all, :blog => @blog
   end
 
-  protect
+  deny_unless_author
   def show(post_id)
     response.render "blog_admin/posts/show", :post => Post.get(post_id), :blog => @blog
   end
 
-  protect
+  deny_unless_author
   def new
     response.render "blog_admin/posts/new", :post => Post.new, :blog => @blog, :authors => @blog.authors
   end
 
-  protect
+  deny_unless_author
   def edit(post_id)
     response.render "blog_admin/posts/edit", :post => Post.get(post_id), :blog => @blog, :authors => @blog.authors
   end
 
-  protect
+  deny_unless_author
   def create(post_params, category_params)
     post = Post.new
     post.blog = @blog
@@ -39,7 +39,7 @@ class CaptainsBlog::BlogAdmin::Posts
     end
   end
 
-  protect
+  deny_unless_author
   def update(post_id, post_params, category_params)
     post = Post.get(post_id)
     post_params["published_at"] = UI::DateTimeTextBox.build(post_params["published_at"])
@@ -56,7 +56,7 @@ class CaptainsBlog::BlogAdmin::Posts
     end
   end
 
-  protect
+  deny_unless_author
   def delete(post_id)
     post = Post.get(post_id)
 

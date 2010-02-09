@@ -4,23 +4,23 @@ class CaptainsBlog::BlogAdmin::Authors
 
   attr_accessor :request, :response, :blog
 
-  protect
+  protect "Authors", "list"
   def index
     response.render "blog_admin/authors/index", :authors => @blog.authors, :blog => @blog
   end
 
-  protect
+  protect "Authors", "create"
   def new
     response.render "blog_admin/authors/new", :users => User.all, :author => Author.new, :blog => @blog
   end
 
-  protect
+  protect "Authors", "update"
   def edit(author_id)
     author = Author.first(:id => author_id, :blog_id => @blog.id)
     response.render "blog_admin/authors/edit", :users => User.all, :author => author, :blog => @blog
   end
 
-  protect
+  protect "Authors", "update"
   def update(author_id, author_params)
     author = Author.first(:id => author_id, :blog_id => @blog.id)
     author.attributes = author_params
@@ -32,7 +32,7 @@ class CaptainsBlog::BlogAdmin::Authors
     end
   end
 
-  protect
+  protect "Authors", "create"
   def add(params)
     author = blog.authors.new(params)
     if author.save
@@ -42,7 +42,7 @@ class CaptainsBlog::BlogAdmin::Authors
     end
   end
 
-  protect
+  protect "Authors", "destroy"
   def delete(author_id)
     author = Author.first(:id => author_id, :blog_id => @blog.id)
     

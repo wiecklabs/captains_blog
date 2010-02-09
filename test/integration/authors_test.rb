@@ -9,7 +9,7 @@ module Integration
 
     def setup
       @blog = create_blog
-      @user = create_user
+      @user = create_admin
 
       container = Harbor::Container.new
       container.register(:authors, CaptainsBlog::BlogAdmin::Authors)
@@ -17,7 +17,6 @@ module Integration
       container.register(:response, Response)
       container.register(:session, Session.new({:user_id => @user.id}))
       container.register(:blog, @blog)
-      Session.new({:user_id => nil})
 
       @controller = container.get(:authors)
     end
@@ -46,7 +45,7 @@ module Integration
     def test_redirects_after_deletion
       author = @blog.authors.new(:user_id => @user.id)
       author.save!
-      
+
       @controller.delete(author.id)
 
       assert_redirect @controller.response
