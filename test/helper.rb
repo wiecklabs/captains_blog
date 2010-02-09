@@ -14,7 +14,7 @@ class Test::Unit::TestCase
     Blog.create!(:slug => 'my_blog', :title => 'My Blog')
   end
 
-  def create_user
-    User.create!(:email => 'sample@example.com', :password => 'example', :password_confirmation => 'example')
+  def create_user(email = 'sample@example.com')
+    User.create!(:email => email, :password => 'example', :password_confirmation => 'example')
   end
 end

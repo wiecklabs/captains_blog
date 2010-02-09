@@ -31,4 +31,7 @@ class Blog
     end
   end
 
+  def author?(user)
+    self.authors.first(:user_id => user.id)
+  end
 end
