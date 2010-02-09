@@ -1,6 +1,6 @@
 class CaptainsBlog::BlogAdmin::Posts
 
-  include PortAuthority::Authorization
+  include CaptainsBlog::Authorization
   
   attr_accessor :request, :response, :logger, :blog
 
