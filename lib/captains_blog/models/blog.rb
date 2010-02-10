@@ -36,4 +36,8 @@ class Blog
 
     self.authors.first(:user_id => user)
   end
+
+  def published_posts
+    posts(:published => true)
+  end
 end

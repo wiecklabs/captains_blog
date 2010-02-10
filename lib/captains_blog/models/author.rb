@@ -4,7 +4,7 @@ class Author
   property :id, Serial
   property :byline, String
 
-  belongs_to :blogs
+  belongs_to :blog, :class_name => 'Blog', :child_key => [:blog_id]
   belongs_to :user
 
   def to_s

@@ -4,11 +4,13 @@ class Post
 	include DataMapper::Timestamp
 
 	property :id, Serial
+	# TODO why do we need this?
 	property :type, Discriminator
 	property :slug, String, :size => 200
 	property :title, String, :size => 300
 	property :content, Text
-	property :published_at, DateTime, :default => lambda { Time.now }
+	property :published, Boolean, :default => false
+	property :published_at, DateTime
 	property :accepting_comments, Boolean, :default => true
 	property :comment_count, Integer, :default => 0
 	property :template_name, String, :size => 50
@@ -23,6 +25,11 @@ class Post
 
   has n, :categories, :through => Resource
 
+  validates_present :published_at,  :when => [ :publish ]
+  validates_present :title,         :when => [ :publish ]
+  validates_present :content,       :when => [ :draft, :publish ]
+  validates_absent  :published,     :when => [ :draft ]
+
   before :save do
     if slug.blank? && title
       self.slug = title.downcase.gsub(/\W/, '-').squeeze('-')
@@ -34,6 +41,8 @@ class Post
   end
 
   def path
+    return "posts/#{id}" unless published
+
     "#{published_at.strftime("%Y/%m/%d")}/#{slug}"
   end
 
@@ -42,6 +51,13 @@ class Post
       comments(:approved => true)
     else
       comments
+    end
+  end
+
+  def publish!
+    if valid?(:publish)
+      @published = true
+      save!
     end
   end
 end
