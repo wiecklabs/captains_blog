@@ -27,6 +27,10 @@ class Test::Unit::TestCase
     Blog.create!(:slug => 'my_blog', :title => 'My Blog')
   end
 
+  def create_author(blog, user)
+    Author.create!(:blog => blog, :user => user)
+  end
+
   def create_admin
     user = User.create!(:email => 'sample@example.com', :password => 'example', :password_confirmation => 'example')
 

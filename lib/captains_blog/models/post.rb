@@ -4,11 +4,13 @@ class Post
 	include DataMapper::Timestamp
 
 	property :id, Serial
+	# TODO why do we need this?
 	property :type, Discriminator
 	property :slug, String, :size => 200
 	property :title, String, :size => 300
 	property :content, Text
-	property :published_at, DateTime, :default => lambda { Time.now }
+	property :published, Boolean
+	property :published_at, DateTime
 	property :accepting_comments, Boolean, :default => true
 	property :comment_count, Integer, :default => 0
 	property :template_name, String, :size => 50
@@ -22,6 +24,8 @@ class Post
 	has n, :tags, :through => :taggings
 
   has n, :categories, :through => Resource
+
+  validates_present :published_at, :if => :published
 
   before :save do
     if slug.blank? && title
@@ -43,5 +47,10 @@ class Post
     else
       comments
     end
+  end
+
+  def publish!
+    @published = true
+    @published_at = Time.now
   end
 end
