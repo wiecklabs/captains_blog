@@ -17,13 +17,13 @@
 </style>
 <% end %>
 
-<% form(resource_path, :method => form_method) do %>
+<% form(resource_path, :method => form_method, :id => 'post_form') do %>
   <fieldset>
     <label for="post_title">Title</label>
-    <input type="text" id="post_title" name="post[title]" value="<%=h @post.title -%>">
+    <input type="text" id="post_title" name="post[title]" value="<%=h @post.title -%>" />
 
     <label for="post_slug">Slug</label>
-    <input type="text" id="post_slug" name="post[slug]" value="<%=h @post.slug -%>">
+    <input type="text" id="post_slug" name="post[slug]" value="<%=h @post.slug -%>" />
 
     <label for="post_author">Author</label>
     <select id="post_author" name="post[author_id]">
@@ -34,8 +34,8 @@
     </select>
 
     <label for="post_comments">Comments Enabled?</label>
-    <input type="hidden" name="post[accepting_comments]" value="0">
-    <input type="checkbox" name="post[accepting_comments]" value="1" <%= 'checked' if @post.accepting_comments? %>>
+    <input type="hidden" name="post[accepting_comments]" value="0" />
+    <input type="checkbox" name="post[accepting_comments]" value="1" <%= 'checked' if @post.accepting_comments? %> />
 
     <label for="published_at">Publish Date/Time</label>
     <%= UI::DateTimeTextBox.new(self, @post, "post", "published_at") %>
@@ -50,12 +50,24 @@
     <%= render 'blog_admin/categories/_checkbox_list', :categories => Category.roots, :selected_categories => @post.categories.entries %>
   </fieldset>
   
-  <input type="submit" value="Save">
+  <input type="submit" value="Save" />
+<% end %>
+
+<% unless @post.published? %>
+  <% head 'publish_post' do %>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#publish').click(function(){
+          $('#post_form').attr("action", '<%= "#{resource_path}/publish" -%>').submit();
+        })
+      });
+    </script>
+  <% end %>
+  <input id="publish" type="button" value="Publish" />
 <% end %>
 
 <% if offer_delete %>
   <% form(resource_path, :method => :delete) do %>
-    <input type="submit" value="Delete">
+    <input type="submit" value="Delete" />
   <% end %>
 <% end %>
-

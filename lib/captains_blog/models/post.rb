@@ -9,7 +9,7 @@ class Post
 	property :slug, String, :size => 200
 	property :title, String, :size => 300
 	property :content, Text
-	property :published, Boolean
+	property :published, Boolean, :default => false
 	property :published_at, DateTime
 	property :accepting_comments, Boolean, :default => true
 	property :comment_count, Integer, :default => 0
@@ -25,7 +25,10 @@ class Post
 
   has n, :categories, :through => Resource
 
-  validates_present :published_at, :if => :published
+  validates_present :published_at,  :when => [ :publish ]
+  validates_present :title,         :when => [ :publish ]
+  validates_present :content,       :when => [ :draft, :publish ]
+  validates_absent  :published,     :when => [ :draft ]
 
   before :save do
     if slug.blank? && title
@@ -37,7 +40,15 @@ class Post
     title.blank? ? "Untitled" : title
   end
 
+  def status
+    return 'Draft' unless published
+
+    "Published at #{published_at.strftime("%Y-%m-%d @ %H:%M")}"
+  end
+
   def path
+    return "posts/#{id}" unless published
+
     "#{published_at.strftime("%Y/%m/%d")}/#{slug}"
   end
 
@@ -50,7 +61,15 @@ class Post
   end
 
   def publish!
-    @published = true
-    @published_at = Time.now
+    if valid?(:publish)
+      attribute_set(:published, true)
+      save!
+    end
+  end
+
+  def accepting_comments?
+    return false unless published
+
+    attribute_get(:accepting_comments)
   end
 end

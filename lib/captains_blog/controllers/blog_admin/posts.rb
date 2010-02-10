@@ -32,7 +32,10 @@ class CaptainsBlog::BlogAdmin::Posts
     post.attributes = post_params
     post.categories = Category.all(:id => category_params)
 
-    if post.save
+    context = post.published? ? :publish : :draft
+
+    if post.valid?(context)
+      post.save
       response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/#{post.id}", :message => "Saved Post #{post.to_s}"
     else
       response.render "blog_admin/posts/new", :post => post, :blog => @blog, :authors => @blog.authors
@@ -49,7 +52,10 @@ class CaptainsBlog::BlogAdmin::Posts
 
     post.categories = Category.all(:id => category_params)
 
-    if post.save
+    context = post.published? ? :publish : :draft
+
+    if post.valid?(context)
+      post.save
       response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/#{post.id}", :message => "Saved Post #{post.to_s}"
     else
       response.render "blog_admin/posts/edit", :post => post, :blog => @blog, :authors => @blog.authors
@@ -68,6 +74,30 @@ class CaptainsBlog::BlogAdmin::Posts
       else
         response.render "blog_admin/posts/show", :post => post, :authors => @blog.authors
       end
+    end
+  end
+
+  deny_unless_author
+  def publish(post_params, category_params)    
+    post = if request.params.key?('id')
+      Post.get(request.params['id'].to_i)
+    else
+      Post.new(:blog => @blog)
+    end
+
+    if post_params.key? "published_at"
+      post_params["published_at"] = UI::DateTimeTextBox.build(post_params["published_at"])
+    end
+    post.attributes = post_params
+
+    if post.publish!
+      post.categories.clear
+      post.categories = Category.all(:id => category_params)
+      post.save!
+
+      response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/#{post.id}", :message => "Published Post \"#{post.to_s}\""
+    else
+      response.render "blog_admin/posts/edit", :post => post, :blog => @blog, :authors => @blog.authors
     end
   end
 

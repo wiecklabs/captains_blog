@@ -38,6 +38,6 @@ class Blog
   end
 
   def published_posts
-    posts(:published => true)
+    posts(:published => true, :order => [:published_at.desc])
   end
 end

@@ -9,7 +9,7 @@
   <thead>
     <tr>
       <th>Title</th>
-      <th>Published</th>
+      <th>Status</th>
       <th>Comments</th>
     </tr>
   </thead>
@@ -17,9 +17,11 @@
   <tr>
     <td>
       <a href="<%= blog_root %>/admin/posts/<%= post.id -%>"><%=h post.to_s %></a>
-      <a href="<%= blog_root %>/<%= post.published_at.strftime("%Y/%m/%d") %>/<%= post.slug %>">(view)</a>
+      <a href="<%= blog_root %>/<%= post.path %>" target="_blank">(<%= post.published ? '' : 'pre' -%>view)</a>
     </td>
-    <td><%= post.published_at.strftime("%Y-%m-%d @ %H:%M") %></td>
+    <td>
+      <%= post.status %>
+    </td>
     <td>
       <a href="<%= blog_root %>/admin/posts/<%= post.id -%>/comments">
         <%= post.comments.length %> Total 

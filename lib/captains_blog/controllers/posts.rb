@@ -3,12 +3,17 @@ class CaptainsBlog::Posts
   attr_accessor :request, :response, :logger, :blog
 
   def index
-    posts = blog.posts(:order => [:published_at.desc])
+    posts = blog.published_posts
     response.render blog.themed_post_path("posts/index"), :blog => blog, :posts => posts
   end
 
-  def show(slug)
-    post = blog.posts.first(:slug => slug.downcase)
+  def show(slug_or_id)
+    post = if slug_or_id.is_a?(Integer)
+      blog.posts.get(slug_or_id)
+    else
+      blog.posts.first(:slug => slug_or_id.downcase)
+    end
+    
     response.abort!(404) unless post
     
     comments = post.approved_comments

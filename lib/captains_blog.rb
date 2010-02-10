@@ -97,6 +97,8 @@ class CaptainsBlog < Harbor::Application
         get("#{root}/admin/posts/:id") { |posts, params| posts.edit(params['id'].to_i) }
         put("#{root}/admin/posts/:id") { |posts, params| posts.update(params['id'].to_i, params.fetch('post', {}), params.fetch('categories', [])) }
         delete("#{root}/admin/posts/:id") { |posts, params| posts.delete(params['id'].to_i) }
+        post("#{root}/admin/posts/publish") { |posts, params| posts.publish(params.fetch('post', {}), params.fetch('categories', [])) }
+        put("#{root}/admin/posts/:id/publish") { |posts, params| posts.publish(params.fetch('post', {}), params.fetch('categories', [])) }
       end
 
       using services, CaptainsBlog::BlogAdmin::Categories do
@@ -130,6 +132,7 @@ class CaptainsBlog < Harbor::Application
       using services, CaptainsBlog::Posts do
         get("#{root}") {|blog_posts, request| blog_posts.index }
         get("#{root}/:yyyy/:mm/:dd/:post_slug") { |blog_posts, request| blog_posts.show(request['post_slug']) }
+        get("#{root}/posts/:id") { |blog_posts, request| blog_posts.show(request['id'].to_i) }
       end
 
     end
