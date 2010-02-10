@@ -66,4 +66,10 @@ class Post
       save!
     end
   end
+
+  def accepting_comments?
+    return false unless published
+
+    attribute_get(:accepting_comments)
+  end
 end
