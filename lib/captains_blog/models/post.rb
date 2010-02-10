@@ -40,6 +40,12 @@ class Post
     title.blank? ? "Untitled" : title
   end
 
+  def status
+    return 'Draft' unless published
+
+    "Published at #{published_at.strftime("%Y-%m-%d @ %H:%M")}"
+  end
+
   def path
     return "posts/#{id}" unless published
 
