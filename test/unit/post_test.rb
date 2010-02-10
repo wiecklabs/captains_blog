@@ -45,6 +45,14 @@ module Unit
       assert_equal "posts/#{post.id}", post.path
     end
 
+    def test_draft_does_not_accept_comments
+      post = create_post
+      assert ! post.accepting_comments?
+
+      post.publish!
+      assert post.accepting_comments?
+    end
+
     private
 
     def create_post(published_at = Time.now, title = 'title')
