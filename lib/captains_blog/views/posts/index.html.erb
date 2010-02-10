@@ -1,6 +1,7 @@
 <% head do %>
 <style type="text/css" media="screen">
   .post { border-bottom: #CCCCCC solid 1px; }
+  .comments span { font-weight: bold }
 </style>
 <% end %>
 
@@ -13,12 +14,10 @@
 		<div class="info">
 			<span class="date"><%= post.published_at.strftime('%B %d, %Y')%></span>
       <span class="comments">
-        <% unless post.accepting_comments? %>
-          <span>Comments off</span>
-        <% end %>
-
-        <%  if total_comments > 0 %>
+        <% if total_comments > 0 %>
           <a href="<%= @blog.root + post.path %>#comments" title="Comment on HTML"><%= total_comments %> comment<%= 's' if total_comments > 1 %></a>
+        <% elsif not post.accepting_comments? %>
+          <span>Comments off</span>
         <% else %>
           <a href="<%= @blog.root + post.path %>#comments" title="Leave a Comment">Be the first to comment!</a>
         <% end %>
