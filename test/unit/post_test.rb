@@ -53,7 +53,7 @@ module Unit
       assert post.accepting_comments?
     end
 
-    private
+    protected
 
     def create_post(published_at = Time.now, title = 'title')
       Post.create!(:author => @author, :blog => @blog, :title => title, :published_at => published_at, :content => 'ssss')

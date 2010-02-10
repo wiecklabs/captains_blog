@@ -62,7 +62,7 @@ class Post
 
   def publish!
     if valid?(:publish)
-      @published = true
+      attribute_set(:published, true)
       save!
     end
   end

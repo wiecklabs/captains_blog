@@ -4,6 +4,8 @@ require "test/unit"
 require Pathname(__FILE__).dirname.parent + "lib/captains_blog"
 require "harbor/test/test"
 
+UI::public_path = Pathname(__FILE__).dirname + "../public"
+
 DataMapper.setup :default, "sqlite3::memory:"
 DataMapper.auto_migrate!
 
@@ -23,6 +25,8 @@ end
 
 
 class Test::Unit::TestCase
+  protected
+
   def create_blog
     Blog.create!(:slug => 'my_blog', :title => 'My Blog')
   end
@@ -45,5 +49,9 @@ class Test::Unit::TestCase
 
   def create_user(email = 'sample@example.com')
     User.create!(:email => email, :password => 'example', :password_confirmation => 'example')
+  end
+
+  def create_post(author, blog, published_at = Time.now, title = 'title')
+    Post.create!(:author => author, :blog => blog, :title => title, :published_at => published_at, :content => 'ssss')
   end
 end
