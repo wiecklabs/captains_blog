@@ -17,7 +17,7 @@
   <tr>
     <td>
       <a href="<%= blog_root %>/admin/posts/<%= post.id -%>"><%=h post.to_s %></a>
-      <a href="<%= blog_root %>/<%= post.path %>">(<%= post.published ? '' : 'pre' -%>view)</a>
+      <a href="<%= blog_root %>/<%= post.path %>" target="_blank">(<%= post.published ? '' : 'pre' -%>view)</a>
     </td>
     <td>
       <%= post.status %>

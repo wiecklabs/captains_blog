@@ -130,6 +130,7 @@ class CaptainsBlog < Harbor::Application
       using services, CaptainsBlog::Posts do
         get("#{root}") {|blog_posts, request| blog_posts.index }
         get("#{root}/:yyyy/:mm/:dd/:post_slug") { |blog_posts, request| blog_posts.show(request['post_slug']) }
+        get("#{root}/posts/:id") { |blog_posts, request| blog_posts.show(request['id'].to_i) }
       end
 
     end
