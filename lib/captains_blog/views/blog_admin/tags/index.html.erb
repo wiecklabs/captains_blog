@@ -1,0 +1,10 @@
+<h2>Tags</h2>
+<table>
+  <tbody>
+    <% Tag.all("taggings.blog_id" => @blog.id, :order => [:name.asc]).each do |tag| %>
+    <tr>
+      <td><%= tag.name %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

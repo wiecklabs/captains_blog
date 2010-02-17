@@ -17,7 +17,8 @@ services.register("logger", logger)
 DataMapper.setup :default, "sqlite3://#{Pathname(__FILE__).dirname.expand_path + "captains_blog.db"}"
 DataObjects::Sqlite3.logger = DataObjects::Logger.new(Pathname(__FILE__).dirname + "log/db.log", :debug)
 
-UI::public_path = Pathname(__FILE__).dirname + "public"
+PortAuthority::public_path = CaptainsBlog.public_path
+UI::public_path = CaptainsBlog.public_path
 CaptainsBlog.root = "/blogs"
 CaptainsBlog.blog_repository = Pathname(__FILE__).dirname.expand_path + 'blogs'
 CaptainsBlog.require_approvals

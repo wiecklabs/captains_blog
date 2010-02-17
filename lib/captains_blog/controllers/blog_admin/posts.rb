@@ -26,10 +26,14 @@ class CaptainsBlog::BlogAdmin::Posts
 
   deny_unless_author
   def create(post_params, category_params)
+    tags = post_params.delete("tags") || []
+
     post = Post.new
     post.blog = @blog
     post_params["published_at"] = UI::DateTimeTextBox.build(post_params["published_at"])
     post.attributes = post_params
+
+    post.taggings = tags.map { |tag| Tagging.new(:blog => @blog, :post => post, :tag => Tag.first(:name => tag) || Tag.new(:name => tag)) }
     post.categories = Category.all(:id => category_params)
 
     context = post.published? ? :publish : :draft
@@ -44,11 +48,20 @@ class CaptainsBlog::BlogAdmin::Posts
 
   deny_unless_author
   def update(post_id, post_params, category_params)
+    tags = post_params.delete("tags") || []
+
     post = Post.get(post_id)
     post_params["published_at"] = UI::DateTimeTextBox.build(post_params["published_at"])
     post.attributes = post_params
     post.categories.clear
     post.save
+
+    Tagging.all(:blog_id => post.blog_id, :post_id => post.id).destroy!
+
+    tags.each do |name|
+      tag = Tag.first_or_create(:name => name)
+      Tagging.first_or_create(:blog_id => post.blog_id, :post_id => post.id, :tag_id => tag.id)
+    end
 
     post.categories = Category.all(:id => category_params)
 

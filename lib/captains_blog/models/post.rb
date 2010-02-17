@@ -21,7 +21,7 @@ class Post
   belongs_to :author
 
 	has n, :taggings
-	has n, :tags, :through => :taggings
+  # has n, :tags, :through => :taggings
 
   has n, :categories, :through => Resource
 
@@ -34,6 +34,10 @@ class Post
     if slug.blank? && title
       self.slug = title.downcase.gsub(/\W/, '-').squeeze('-')
     end
+  end
+
+  def tags
+    taggings.map { |tagging| tagging.tag }
   end
 
 	def to_s

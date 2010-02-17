@@ -101,6 +101,10 @@ class CaptainsBlog < Harbor::Application
         put("#{root}/admin/posts/:id/publish") { |posts, params| posts.publish(params.fetch('post', {}), params.fetch('categories', [])) }
       end
 
+      using services, CaptainsBlog::BlogAdmin::Tags do
+        get("#{root}/admin/tags") { |tags| tags.index }
+      end
+
       using services, CaptainsBlog::BlogAdmin::Categories do
         get("#{root}/admin/categories") { |categories| categories.index }
         post("#{root}/admin/categories") { |categories, params| categories.create(params.fetch('category', {})) }
@@ -180,5 +184,6 @@ require "captains_blog/controllers/blog_admin/blog"
 require "captains_blog/controllers/blog_admin/categories"
 require "captains_blog/controllers/blog_admin/links"
 require "captains_blog/controllers/blog_admin/comments"
+require "captains_blog/controllers/blog_admin/tags"
 
 require "captains_blog/helpers"

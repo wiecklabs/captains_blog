@@ -5,4 +5,6 @@ class Tag
   property :id, Serial
   property :name, String, :size => 50
 
+  has n, :taggings
+
 end

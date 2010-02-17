@@ -41,7 +41,10 @@
     <%= UI::DateTimeTextBox.new(self, @post, "post", "published_at") %>
 
     <label for="post_content">Content</label>
-    <%= UI::RichTextArea.new(self, "post[content]", 500, 300, @post.content) %>
+    <%= UI::RichTextArea.new(self, "post[content]", 500, 300, @post.content, "post_content") %>
+
+    <label>Tags</label>
+    <%= UI::TagBox.new(self, @post.tags, "post[tags][]") %>
   </fieldset>
   
   <fieldset>
