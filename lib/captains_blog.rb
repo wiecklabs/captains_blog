@@ -11,7 +11,7 @@ gem "dm-is-tree"
 require "dm-is-tree"
 require "dm-is-tree/is/version"
 
-gem "port_authority", ">= 1.0"
+gem "port_authority", ">= 1.6.38"
 require "port_authority"
 
 gem "RedCloth"
