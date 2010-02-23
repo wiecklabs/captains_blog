@@ -6,7 +6,7 @@ applications
 ## Dependencies
 
   * [harbor](http://github.com/wiecklabs/harbor) (>= 0.12.7)
-  * [port_authority](http://github.com/wiecklabs/port_authority) (>= 1.0)
+  * [port_authority](http://github.com/wiecklabs/port_authority) (>= 1.6.38)
   * logging
   * dm-core (= 0.9.11)
   * dm-is-tree (= 0.9.11)
