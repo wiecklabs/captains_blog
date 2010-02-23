@@ -16,6 +16,7 @@ applications
 
   * git clone git://github.com/wiecklabs/captains_blog.git
   * cd captains_blog
+  * bundle install
   * mkdir log
   * rackup
   * Go to http://localhost:9292/ and have fun!
