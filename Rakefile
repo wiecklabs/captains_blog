@@ -34,7 +34,7 @@ spec = Gem::Specification.new do |s|
   s.add_dependency "harbor", ">= 0.12.7"
   s.add_dependency 'port_authority', ">= 1.6.38"
   s.add_dependency 'logging'
-  s.add_dependency "dm-is-tree"
+  s.add_dependency "dm-is-tree", '= 0.9.11'
   s.add_dependency 'RedCloth'
 end
 
