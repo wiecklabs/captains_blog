@@ -1,7 +1,7 @@
 <h2>Tags</h2>
 <table>
   <tbody>
-    <% Tag.all("taggings.blog_id" => @blog.id, :order => [:name.asc]).each do |tag| %>
+    <% Tag.all("taggings.blog_id" => @blog.id, :order => [:name.asc], :unique => true).each do |tag| %>
       <tr>
         <td><%= tag.name %></td>
         <td>
