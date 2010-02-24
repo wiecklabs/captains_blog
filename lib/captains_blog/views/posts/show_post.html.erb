@@ -12,4 +12,8 @@
   <%= RedCloth.new(@post.content).to_html %>
 </div>
 
+<p>
+  <strong>Tags</strong>: <%= @post.tags.map { |tag| tag.name }.join(', ') %>
+</p>
+
 <%= render "posts/_comments" %>
