@@ -33,13 +33,13 @@ class CaptainsBlog::BlogAdmin::Posts
     post_params["published_at"] = UI::DateTimeTextBox.build(post_params["published_at"])
     post.attributes = post_params
 
-    post.taggings = tags.map { |tag| Tagging.new(:blog => @blog, :post => post, :tag => Tag.first(:name => tag) || Tag.new(:name => tag)) }
-    post.categories = Category.all(:id => category_params)
-
     context = post.published? ? :publish : :draft
 
     if post.valid?(context)
+      post.categories = Category.all(:id => category_params)
       post.save
+      tags.each { |tag| post.tag!(tag) }
+
       response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/#{post.id}", :message => "Saved Post #{post.to_s}"
     else
       response.render "blog_admin/posts/new", :post => post, :blog => @blog, :authors => @blog.authors
@@ -57,11 +57,7 @@ class CaptainsBlog::BlogAdmin::Posts
     post.save
 
     Tagging.all(:blog_id => post.blog_id, :post_id => post.id).destroy!
-
-    tags.each do |name|
-      tag = Tag.first_or_create(:name => name)
-      Tagging.first_or_create(:blog_id => post.blog_id, :post_id => post.id, :tag_id => tag.id)
-    end
+    tags.each { |tag| post.tag!(tag) }
 
     post.categories = Category.all(:id => category_params)
 
