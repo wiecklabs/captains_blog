@@ -53,6 +53,24 @@ module Unit
       assert post.accepting_comments?
     end
 
+    def test_tagging
+      post = create_post
+
+      post.tag!('ruby')
+      post.tag!('testing')
+
+      assert_equal 2, post.tags.size
+    end
+
+    def test_duplicated_tags
+      post = create_post
+
+      post.tag!('ruby')
+      post.tag!('ruby')
+
+      assert_equal 1, post.tags.size
+    end
+
     protected
 
     def create_post(published_at = Time.now, title = 'title')

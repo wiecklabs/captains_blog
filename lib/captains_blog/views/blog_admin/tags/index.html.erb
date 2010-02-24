@@ -2,9 +2,14 @@
 <table>
   <tbody>
     <% Tag.all("taggings.blog_id" => @blog.id, :order => [:name.asc]).each do |tag| %>
-    <tr>
-      <td><%= tag.name %></td>
-    </tr>
+      <tr>
+        <td><%= tag.name %></td>
+        <td>
+          <% form("#{blog_root}/admin/tags/#{tag.id}", :method => :delete) do %>
+            <input type="submit" value="Delete" onclick="return confirm('Are you sure?');" />
+          <% end %>
+        </td>
+      </tr>
     <% end %>
   </tbody>
 </table>

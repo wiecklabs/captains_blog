@@ -103,6 +103,7 @@ class CaptainsBlog < Harbor::Application
 
       using services, CaptainsBlog::BlogAdmin::Tags do
         get("#{root}/admin/tags") { |tags| tags.index }
+        delete("#{root}/admin/tags/:id") { |tags, params| tags.delete(params['id'].to_i) }
       end
 
       using services, CaptainsBlog::BlogAdmin::Categories do
