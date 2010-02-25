@@ -16,7 +16,7 @@
   <% end %>
 
   <% unless @post.categories.size == 0 %>
-    and is filled under <%= @post.categories.map { |cat| "<a href='#{blog_root}/categories/#{cat.title.slugize}'>#{cat.title}</a>" }.join(', ') %>
+    and filled under <%= @post.categories.map { |cat| "<a href='#{blog_root}/categories/#{cat.title.slugize}'>#{cat.title}</a>" }.join(', ') %>
   <% end %>
 </p>
 

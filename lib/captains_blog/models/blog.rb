@@ -37,7 +37,7 @@ class Blog
     self.authors.first(:user_id => user)
   end
 
-  def published_posts
+  def published_posts(conditions = nil)
     posts(:published => true, :order => [:published_at.desc])
   end
 end

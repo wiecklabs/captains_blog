@@ -7,6 +7,16 @@ class CaptainsBlog::Posts
     response.render blog.themed_post_path("posts/index"), :blog => blog, :posts => posts
   end
 
+  def tagged(tag_name)
+    posts = @blog.published_posts.all('taggings.tag_id' => Tag.first(:name => tag_name).id)
+    response.render blog.themed_post_path("posts/index"), :blog => blog, :posts => posts
+  end
+
+  def under(category_title)
+    posts = @blog.published_posts.all('categories.category_id' => Category.first(:title => category_title).id)
+    response.render blog.themed_post_path("posts/index"), :blog => blog, :posts => posts
+  end
+
   def show(slug_or_id)
     post = if slug_or_id.is_a?(Integer)
       blog.posts.get(slug_or_id)

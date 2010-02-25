@@ -25,9 +25,7 @@ class CaptainsBlog::BlogAdmin::Posts
   end
 
   deny_unless_author
-  def create(post_params, category_params)
-    tags = post_params.delete("tags") || []
-
+  def create(post_params, categories, tags)
     post = Post.new
     post.blog = @blog
     post_params["published_at"] = UI::DateTimeTextBox.build(post_params["published_at"])
@@ -36,7 +34,7 @@ class CaptainsBlog::BlogAdmin::Posts
     context = post.published? ? :publish : :draft
 
     if post.valid?(context)
-      post.categories = Category.all(:id => category_params)
+      post.categories = Category.all(:id => categories)
       post.save
       tags.each { |tag| post.tag!(tag) }
 
@@ -47,24 +45,22 @@ class CaptainsBlog::BlogAdmin::Posts
   end
 
   deny_unless_author
-  def update(post_id, post_params, category_params)
-    tags = post_params.delete("tags") || []
-
+  def update(post_id, post_params, categories, tags)
     post = Post.get(post_id)
     post_params["published_at"] = UI::DateTimeTextBox.build(post_params["published_at"])
     post.attributes = post_params
-    post.categories.clear
-    post.save
-
-    Tagging.all(:blog_id => post.blog_id, :post_id => post.id).destroy!
-    tags.each { |tag| post.tag!(tag) }
-
-    post.categories = Category.all(:id => category_params)
-
+    
     context = post.published? ? :publish : :draft
 
     if post.valid?(context)
+      Tagging.all(:blog_id => post.blog_id, :post_id => post.id).destroy!
+      tags.each { |tag| post.tag!(tag) }
+
+      post.categories.clear
+      post.categories = Category.all(:id => categories)
+      
       post.save
+
       response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/#{post.id}", :message => "Saved Post #{post.to_s}"
     else
       response.render "blog_admin/posts/edit", :post => post, :blog => @blog, :authors => @blog.authors
@@ -87,9 +83,9 @@ class CaptainsBlog::BlogAdmin::Posts
   end
 
   deny_unless_author
-  def publish(post_params, category_params)    
-    post = if request.params.key?('id')
-      Post.get(request.params['id'].to_i)
+  def publish(post_id, post_params, categories, tags)
+    post = if post_id
+      Post.get(post_id.to_i)
     else
       Post.new(:blog => @blog)
     end
@@ -101,8 +97,11 @@ class CaptainsBlog::BlogAdmin::Posts
 
     if post.publish!
       post.categories.clear
-      post.categories = Category.all(:id => category_params)
+      post.categories = Category.all(:id => categories)
       post.save!
+
+      Tagging.all(:blog_id => post.blog_id, :post_id => post.id).destroy!
+      tags.each { |tag| post.tag!(tag) }
 
       response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/#{post.id}", :message => "Published Post \"#{post.to_s}\""
     else

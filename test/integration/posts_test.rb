@@ -21,22 +21,21 @@ module Integration
     end
 
     def test_do_not_publish_invalid_post
-      @controller.publish(post_params(nil), [])
+      @controller.publish(nil, post_params(nil), [], [])
 
       assert @blog.reload.published_posts.size == 0
     end
 
     def test_publish_new_post
-      @controller.publish(post_params, [])
+      @controller.publish(nil, post_params, [], [])
 
       assert @blog.reload.published_posts.size == 1
     end
 
     def test_publish_draft
       post = create_post(@author, @blog)
-      @controller.request.params['id'] = post.id
-
-      @controller.publish(post_params, [])
+      
+      @controller.publish(post.id, post_params, [], [])
 
       assert @blog.reload.published_posts.size == 1
     end

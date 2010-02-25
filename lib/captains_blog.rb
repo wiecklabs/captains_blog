@@ -94,13 +94,13 @@ class CaptainsBlog < Harbor::Application
 
       using services, CaptainsBlog::BlogAdmin::Posts do        
         get("#{root}/admin/posts") { |posts| posts.index }
-        post("#{root}/admin/posts") { |posts, params| posts.create(params.fetch('post', {}), params.fetch('categories', [])) }
+        post("#{root}/admin/posts") { |posts, params| posts.create(params.fetch('post', {}), params.fetch('categories', []), params.fetch('tags', [])) }
         get("#{root}/admin/posts/new") { |posts, params| posts.new }
         get("#{root}/admin/posts/:id") { |posts, params| posts.edit(params['id'].to_i) }
-        put("#{root}/admin/posts/:id") { |posts, params| posts.update(params['id'].to_i, params.fetch('post', {}), params.fetch('categories', [])) }
+        put("#{root}/admin/posts/:id") { |posts, params| posts.update(params['id'].to_i, params.fetch('post', {}), params.fetch('categories', []), params.fetch('tags', [])) }
         delete("#{root}/admin/posts/:id") { |posts, params| posts.delete(params['id'].to_i) }
-        post("#{root}/admin/posts/publish") { |posts, params| posts.publish(params.fetch('post', {}), params.fetch('categories', [])) }
-        put("#{root}/admin/posts/:id/publish") { |posts, params| posts.publish(params.fetch('post', {}), params.fetch('categories', [])) }
+        post("#{root}/admin/posts/publish") { |posts, params| posts.publish(nil, params.fetch('post', {}), params.fetch('categories', []), params.fetch('tags', [])) }
+        put("#{root}/admin/posts/:id/publish") { |posts, params| posts.publish(params['id'].to_i, params.fetch('post', {}), params.fetch('categories', []), params.fetch('tags', [])) }
       end
 
       using services, CaptainsBlog::BlogAdmin::Tags do
@@ -138,6 +138,8 @@ class CaptainsBlog < Harbor::Application
       
       using services, CaptainsBlog::Posts do
         get("#{root}") {|blog_posts, request| blog_posts.index }
+        get("#{root}/tags/:tag") {|blog_posts, request| blog_posts.tagged(request['tag']) }
+        get("#{root}/categories/:category") {|blog_posts, request| blog_posts.under(request['category']) }
         get("#{root}/:yyyy/:mm/:dd/:post_slug") { |blog_posts, request| blog_posts.show(request['post_slug']) }
         get("#{root}/posts/:id") { |blog_posts, request| blog_posts.show(request['id'].to_i) }
       end

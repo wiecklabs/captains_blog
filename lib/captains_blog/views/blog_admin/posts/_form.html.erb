@@ -44,7 +44,7 @@
     <%= UI::RichTextArea.new(self, "post[content]", 500, 300, @post.content, "post_content") %>
 
     <label>Tags</label>
-    <%= UI::TagBox.new(self, @post.tags, "post[tags][]") %>
+    <%= UI::TagBox.new(self, @post.tags, "tags[]") %>
   </fieldset>
   
   <fieldset>
