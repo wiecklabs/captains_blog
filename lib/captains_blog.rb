@@ -3,6 +3,8 @@ require "pathname"
 
 $:.unshift(Pathname(__FILE__).dirname.expand_path)
 
+require 'captains_blog/support'
+
 gem "harbor", ">= 0.12.7"
 require "harbor"
 require "harbor/logging"

@@ -32,7 +32,7 @@ class Post
 
   before :save do
     if slug.blank? && title
-      self.slug = title.downcase.gsub(/\W/, '-').squeeze('-')
+      self.slug = title.slugize
     end
   end
 

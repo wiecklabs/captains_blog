@@ -1,19 +1,31 @@
 <% head "message" do %>
-<style type="text/css" media="screen">
-  .message { background-color: #0A0; color: #FFF; padding: 0 4px;}
-</style>
+  <style type="text/css" media="screen">
+    .message { background-color: #0A0; color: #FFF; padding: 0 4px;}
+  </style>
 <% end %>
 
 <%= @error ? "<div class=\"errors\"><p>#{@error}</p></div>" : UI::ErrorMessages.new(self, "Your comment could not be created:", response.errors) %>
 <h3><%= @post.title %></h3>
-<% unless @post.author.nil? %><p class="byline"><%= @post.author.to_s %></p><% end %>
+<p>
+  <% unless @post.published_at.nil? %>
+    Pulished at <%= @post.published_at.strftime('%B %d, %Y') %>
+  <% end %>
+
+  <% unless @post.author.nil? %>
+    <span class="byline">by <%= @post.author.to_s %></span>
+  <% end %>
+
+  <% unless @post.categories.size == 0 %>
+    and is filled under <%= @post.categories.map { |cat| "<a href='#{blog_root}/categories/#{cat.title.slugize}'>#{cat.title}</a>" }.join(', ') %>
+  <% end %>
+</p>
 
 <div>
   <%= RedCloth.new(@post.content).to_html %>
 </div>
 
 <p>
-  <strong>Tags</strong>: <%= @post.tags.map { |tag| tag.name }.join(', ') %>
+  <strong>Tags</strong>: <%= @post.tags.map { |tag| "<a href='#{blog_root}/tags/#{tag.name.slugize}'>#{tag.name}</a>" }.join(', ') %>
 </p>
 
 <%= render "posts/_comments" %>
