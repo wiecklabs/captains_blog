@@ -36,6 +36,10 @@ class Post
     end
   end
 
+  before :destroy do
+    Tagging.all(:post_id => self.id, :blog_id => self.blog_id).destroy!
+  end
+
   def tag!(name)
     tag = Tag.first_or_create(:name => name)
     Tagging.first_or_create(:blog_id => self.blog_id, :post_id => self.id, :tag_id => tag.id)
