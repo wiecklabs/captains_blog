@@ -71,6 +71,6 @@
 
 <% if offer_delete %>
   <% form(resource_path, :method => :delete) do %>
-    <input type="submit" value="Delete" />
+    <input type="submit" value="Delete" onclick="return confirm('Are you sure?');" />
   <% end %>
 <% end %>
