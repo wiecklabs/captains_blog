@@ -142,6 +142,8 @@ class CaptainsBlog < Harbor::Application
 
         show_post_route = /#{root}\/\d{4}\/\d{2}\/\d{2}\/(\w+)/
         get(show_post_route) do |blog_posts, request|
+          show_post_route.match(request.path_info)
+          
           post_slug = $1
           blog_posts.show(post_slug)
         end
