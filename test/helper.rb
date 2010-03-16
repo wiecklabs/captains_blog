@@ -54,4 +54,8 @@ class Test::Unit::TestCase
   def create_post(author, blog, published_at = Time.now, title = 'title')
     Post.create!(:author => author, :blog => blog, :title => title, :published_at => published_at, :content => 'ssss')
   end
+
+  def create_category(blog, title = 'dev')
+    Category.create!(:blog => blog, :title => title)
+  end
 end
