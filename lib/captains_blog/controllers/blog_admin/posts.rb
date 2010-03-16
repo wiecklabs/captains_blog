@@ -57,9 +57,10 @@ class CaptainsBlog::BlogAdmin::Posts
       tags.each { |tag| post.tag!(tag) }
 
       post.categories.clear
+      post.save!
+
       post.categories = Category.all(:id => categories)
-      
-      post.save
+      post.save!
 
       response.redirect "#{CaptainsBlog.root}/admin/posts/#{post.id}", :message => "Saved Post #{post.to_s}"
     else
@@ -97,6 +98,8 @@ class CaptainsBlog::BlogAdmin::Posts
 
     if post.publish!
       post.categories.clear
+      post.save!
+
       post.categories = Category.all(:id => categories)
       post.save!
 

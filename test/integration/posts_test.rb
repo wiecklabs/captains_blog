@@ -9,6 +9,7 @@ module Integration
       @blog = create_blog
       @user = create_admin
       @author = create_author(@blog, @user)
+      @category = create_category(@blog)
 
       container = Harbor::Container.new
       container.register(:posts, CaptainsBlog::BlogAdmin::Posts)
@@ -38,6 +39,58 @@ module Integration
       @controller.publish(post.id, post_params, [], [])
 
       assert @blog.reload.published_posts.size == 1
+    end
+
+    def test_update_post_category
+      post = create_post(@author, @blog)
+      post.categories << @category
+      post.save!
+
+      new_category = create_category(@blog, 'my new category')
+
+      @controller.update(post.id, post_params, [new_category.id], [])
+
+      post = post.reload
+      assert 1, post.categories.size
+      assert_equal new_category, post.categories[0]
+    end
+
+    def test_publish_post_updating_category
+      post = create_post(@author, @blog)
+      post.categories << @category
+      post.save!
+
+      new_category = create_category(@blog, 'my new category')
+
+      @controller.publish(post.id, post_params, [new_category.id], [])
+
+      post = post.reload
+      assert 1, post.categories.size
+      assert_equal new_category, post.categories[0]
+    end
+
+    def test_update_post_no_category_change
+      post = create_post(@author, @blog)
+      post.categories << @category
+      post.save!
+
+      @controller.update(post.id, post_params, [@category.id], [])
+
+      post = post.reload
+      assert 1, post.categories.size
+      assert_equal @category, post.categories[0]
+    end
+
+    def test_publish_post_no_category_change
+      post = create_post(@author, @blog)
+      post.categories << @category
+      post.save!
+
+      @controller.publish(post.id, post_params, [@category.id], [])
+
+      post = post.reload
+      assert 1, post.categories.size
+      assert_equal @category, post.categories[0]
     end
 
     protected
