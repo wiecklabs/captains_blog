@@ -8,7 +8,8 @@ class CaptainsBlog
           service = @container.get(@service_name,
                                    :request => request,
                                    :response => response,
-                                   :blog => Blog.first(:slug => request['blog_slug']),
+                                   #:blog => Blog.first(:slug => request['blog_slug']),
+                                   :blog => Blog.first,
                                    :logger => Logging::Logger[service])
 
           handler.arity == 2 ? handler[service, request] : handler[service]

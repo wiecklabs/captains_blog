@@ -29,6 +29,7 @@ class CaptainsBlog < Harbor::Application
   Harbor::View::path.unshift(Pathname(__FILE__).dirname + "captains_blog/views")  
   
   Harbor::View.layouts.map("blog_admin/*", "layouts/blog_admin")
+  Harbor::View.layouts.map("admin/*", "layouts/blog_admin")
   Harbor::View.layouts.map("posts/*", "layouts/blog")
   Harbor::View.layouts.map("*", "layouts/application")
 
@@ -77,22 +78,19 @@ class CaptainsBlog < Harbor::Application
     raise ArgumentError.new("+services+ must be a Harbor::Container") unless services.is_a?(Harbor::Container)
 
     CaptainsBlog::Router.new do
-      root = (CaptainsBlog.root + "/:blog_slug").squeeze("/")
+      root = CaptainsBlog.root
       
       using services, CaptainsBlog::Blogs do
-        get("/admin/blogs")           { |blogs| blogs.index }
-        post("/admin/blogs")          { |blogs, request| blogs.create(request['blog']) }
-        get("/admin/blogs/new")       { |blogs, request| blogs.new }
-        get("/admin/blogs/:id")       { |blogs, request| blogs.response.redirect("/admin/blogs/#{request['id']}/edit") }
-        get("/admin/blogs/:id/edit")  { |blogs, request| blogs.edit(request['id'].to_i) }
-        put("/admin/blogs/:id")       { |blogs, request| blogs.update(request['id'].to_i, request['blog']) }
+        get("#{root}/admin/blog")       { |blogs, request| blogs.response.redirect("/admin/blog/edit") }
+        get("#{root}/admin/blog/edit")  { |blogs, request| blogs.edit(Blog.first.id) }
+        put("#{root}/admin/blog")       { |blogs, request| blogs.update(Blog.first.id, request['blog']) }
       end
 
       using services, CaptainsBlog::BlogAdmin::Blog do
         get("#{root}/admin") { |blog| blog.dashboard }
       end
 
-      using services, CaptainsBlog::BlogAdmin::Posts do        
+      using services, CaptainsBlog::BlogAdmin::Posts do
         get("#{root}/admin/posts") { |posts| posts.index }
         post("#{root}/admin/posts") { |posts, params| posts.create(params.fetch('post', {}), params.fetch('categories', []), params.fetch('tags', [])) }
         get("#{root}/admin/posts/new") { |posts, params| posts.new }
@@ -116,15 +114,15 @@ class CaptainsBlog < Harbor::Application
         put("#{root}/admin/categories/:id") { |categories, params| categories.update(params['id'].to_i, params.fetch('category', {})) }
         delete("#{root}/admin/categories/:id") { |categories, params| categories.delete(params['id'].to_i) }
       end
-
-      using services, CaptainsBlog::BlogAdmin::Authors do
-        get("#{root}/admin/authors") { |authors| authors.index }
-        post("#{root}/admin/authors") { |authors, params| authors.add(params.fetch('author', {})) }
-        get("#{root}/admin/authors/new") { |authors, params| authors.new }
-        get("#{root}/admin/authors/:id") { |authors, params| authors.edit(params['id'].to_i) }
-        put("#{root}/admin/authors/:id") { |authors, params| authors.update(params['id'].to_i, params.fetch('author', {})) }
-        delete("#{root}/admin/authors/:id") { |authors, params| authors.delete(params['id'].to_i) }
-      end
+#
+#      using services, CaptainsBlog::BlogAdmin::Authors do
+#        get("#{root}/admin/authors") { |authors| authors.index }
+#        post("#{root}/admin/authors") { |authors, params| authors.add(params.fetch('author', {})) }
+#        get("#{root}/admin/authors/new") { |authors, params| authors.new }
+#        get("#{root}/admin/authors/:id") { |authors, params| authors.edit(params['id'].to_i) }
+#        put("#{root}/admin/authors/:id") { |authors, params| authors.update(params['id'].to_i, params.fetch('author', {})) }
+#        delete("#{root}/admin/authors/:id") { |authors, params| authors.delete(params['id'].to_i) }
+#      end
 
       using services, CaptainsBlog::BlogAdmin::Comments do
         get("#{root}/admin/posts/:id/comments") { |comments, params| comments.index(params['id'].to_i)}
@@ -135,13 +133,18 @@ class CaptainsBlog < Harbor::Application
       using services, CaptainsBlog::Comments do
         post("#{root}/:yyyy/:mm/:dd/:post_slug/comment") { |comments, request| comments.create(request['post_slug'], request['comment']) }
       end
-      
+
       using services, CaptainsBlog::Posts do
-        get("#{root}") {|blog_posts, request| blog_posts.index }
+        get("#{root}/") {|blog_posts, request| blog_posts.index }
         get("#{root}/tags/:tag") {|blog_posts, request| blog_posts.tagged(request['tag']) }
         get("#{root}/categories/:category") {|blog_posts, request| blog_posts.under(request['category']) }
-        get("#{root}/:yyyy/:mm/:dd/:post_slug") { |blog_posts, request| blog_posts.show(request['post_slug']) }
         get("#{root}/posts/:id") { |blog_posts, request| blog_posts.show(request['id'].to_i) }
+
+        show_post_route = /#{root}\/\d{4}\/\d{2}\/\d{2}\/(\w+)/
+        get(show_post_route) do |blog_posts, request|
+          post_slug = $1
+          blog_posts.show(post_slug)
+        end
       end
 
     end

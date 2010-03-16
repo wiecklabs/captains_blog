@@ -43,7 +43,7 @@ class CaptainsBlog::Blogs
     blog.attributes =  blog_params
 
     if blog.save
-      response.redirect "/admin/blogs/#{id}/edit", :message => "'#{blog.title}' was updated."
+      response.redirect "/admin/blog/edit", :message => "Blog information was updated."
     else
       response.render "admin/blogs/edit", :blog => blog
     end

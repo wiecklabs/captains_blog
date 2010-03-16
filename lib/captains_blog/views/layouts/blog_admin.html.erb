@@ -48,12 +48,13 @@
   </head>
   <body>
     <div class="header">
-      <h1><%= @blog.title -%> - Admin</h1>
+      <h1><%= @blog ? @blog.title : Blog.first.title -%> - Admin</h1>
 
       <%= UI::AccountNavigation.new(self) if me %>
     </div>
     
     <ul id="admin-sections">
+      <li><a href="<%= "#{blog_root}" %>/admin/blog">Blog info</a></li>
       <li><a href="<%= "#{blog_root}" %>/admin/posts">Posts</a></li>
       <li style="font-size: 0.8em; margin-left: 3px;"><a href="<%= "#{blog_root}" %>/admin/posts/new" class="new">(new)</a></li>
       <li><a href="<%= "#{blog_root}" %>/admin/links">Links</a></li>
@@ -61,6 +62,7 @@
       <li><a href="<%= "#{blog_root}" %>/admin/categories">Categories</a></li>
       <li><a href="<%= "#{blog_root}" %>/admin/tags">Tags</a></li>
       <li><a href="<%= "#{blog_root}" %>/admin/authors">Authors</a></li>
+      <li><a href="<%= "#{blog_root}" %>/admin/users">Users</a></li>
     </ul>
     
     <% if message = request['message'] %>

@@ -1,13 +1,13 @@
 <%
-  if @blog.new_record?
-    resource_path = "/admin/blogs"
-    form_method = :post
-    offer_delete = false
-  else
-    resource_path = "/admin/blogs/#{@blog.id}"
+  #if @blog.new_record?
+    #resource_path = "/admin/blogs"
+    #form_method = :post
+    #offer_delete = false
+  #else
+    resource_path = "/admin/blog"
     form_method = :put
-    offer_delete = true
-  end
+    offer_delete = false
+  #end
 %>
 
 <% form resource_path, :method => form_method do %>
@@ -19,9 +19,6 @@
 
     <label for="blog_tagline">Tagline</label>
     <input type="text" id="blog_tagline" name="blog[tagline]" value="<%=h @blog.tagline %>">
-
-    <label for="blog_slug">Slug</label>
-    <input type="text" id="blog_slug" name="blog[slug]" value="<%=h @blog.slug %>">
 
   </fieldset>
   <input type="submit" value="Save">

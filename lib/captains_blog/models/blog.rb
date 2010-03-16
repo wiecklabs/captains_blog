@@ -9,8 +9,9 @@ class Blog
   property :theme_name, String, :size => 50
   property :root_url, String, :size => 100
 
-  validates_is_unique :slug
-  validates_present :slug, :title
+  # validates_is_unique :slug
+  # validates_present :slug, :title
+  validates_present :title
 
   has n, :posts
 
@@ -20,7 +21,7 @@ class Blog
   has n, :tags, :through => :taggings
 
   def root
-    CaptainsBlog.root + "/#{slug}/"
+    CaptainsBlog.root + "/"
   end
 
   def themed_post_path(path)

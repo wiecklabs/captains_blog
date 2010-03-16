@@ -29,7 +29,7 @@ class CaptainsBlog::BlogAdmin::Categories
     category.attributes = category_params
 
     if category.save
-      response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/categories/#{category.id}", :message => "Saved Category #{category.to_s}"
+      response.redirect "#{CaptainsBlog.root}/admin/categories/#{category.id}", :message => "Saved Category #{category.to_s}"
     else
       response.render "blog_admin/categories/new", :category => category, :blog => @blog
     end
@@ -41,7 +41,7 @@ class CaptainsBlog::BlogAdmin::Categories
     category.attributes = category_params
 
     if category.save
-      response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/categories/#{category.id}", :message => "Saved Category #{category.to_s}"
+      response.redirect "#{CaptainsBlog.root}/admin/categories/#{category.id}", :message => "Saved Category #{category.to_s}"
     else
       response.render "blog_admin/categories/show", :category => category, :blog => @blog
     end
@@ -55,7 +55,7 @@ class CaptainsBlog::BlogAdmin::Categories
       return response.puts(category.destroy)
     else
       if category.destroy
-        response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/categories", :message => "Deleted Category #{category.to_s}"
+        response.redirect "#{CaptainsBlog.root}/admin/categories", :message => "Deleted Category #{category.to_s}"
       else
         response.render "blog_admin/categories/show", :category => category, :blog => @blog
       end

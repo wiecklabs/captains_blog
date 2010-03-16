@@ -24,10 +24,10 @@ class CaptainsBlog::BlogAdmin::Comments
     comment.approved = true
 
     if comment.save
-      response.redirect! "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/#{comment.post.id}/comments",
+      response.redirect! "#{CaptainsBlog.root}/admin/posts/#{comment.post.id}/comments",
         :message => "Comment approved!"
     else
-      response.redirect! "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/#{comment.post.id}/comments",
+      response.redirect! "#{CaptainsBlog.root}/admin/posts/#{comment.post.id}/comments",
         :message => "Something went wrong. Comment could not be approved."
     end
   end
@@ -36,16 +36,16 @@ class CaptainsBlog::BlogAdmin::Comments
   def disapprove(comment_id)
     comment = Comment.first(:id => comment_id)
     
-    response.redirect! "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/",
+    response.redirect! "#{CaptainsBlog.root}/admin/posts/",
       :message => "That comment does not exist." if comment.nil?
 
     comment.approved = false
 
     if comment.save
-      response.redirect! "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/#{comment.post.id}/comments",
+      response.redirect! "#{CaptainsBlog.root}/admin/posts/#{comment.post.id}/comments",
         :message => "Comment disapproved!"
     else
-      response.redirect! "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/#{comment.post.id}/comments",
+      response.redirect! "#{CaptainsBlog.root}/admin/posts/#{comment.post.id}/comments",
         :message => "Something went wrong. Comment could not be disapproved."
     end
   end

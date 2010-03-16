@@ -38,7 +38,7 @@ class CaptainsBlog::BlogAdmin::Posts
       post.save
       tags.each { |tag| post.tag!(tag) }
 
-      response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/#{post.id}", :message => "Saved Post #{post.to_s}"
+      response.redirect "#{CaptainsBlog.root}/admin/posts/#{post.id}", :message => "Saved Post #{post.to_s}"
     else
       response.render "blog_admin/posts/new", :post => post, :blog => @blog, :authors => @blog.authors
     end
@@ -61,7 +61,7 @@ class CaptainsBlog::BlogAdmin::Posts
       
       post.save
 
-      response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/#{post.id}", :message => "Saved Post #{post.to_s}"
+      response.redirect "#{CaptainsBlog.root}/admin/posts/#{post.id}", :message => "Saved Post #{post.to_s}"
     else
       response.render "blog_admin/posts/edit", :post => post, :blog => @blog, :authors => @blog.authors
     end
@@ -75,7 +75,7 @@ class CaptainsBlog::BlogAdmin::Posts
       return response.puts(post.destroy)
     else
       if post.destroy
-        response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts", :message => "Deleted Post #{post.to_s}"
+        response.redirect "#{CaptainsBlog.root}/admin/posts", :message => "Deleted Post #{post.to_s}"
       else
         response.render "blog_admin/posts/show", :post => post, :authors => @blog.authors
       end
@@ -103,7 +103,7 @@ class CaptainsBlog::BlogAdmin::Posts
       Tagging.all(:blog_id => post.blog_id, :post_id => post.id).destroy!
       tags.each { |tag| post.tag!(tag) }
 
-      response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/#{post.id}", :message => "Published Post \"#{post.to_s}\""
+      response.redirect "#{CaptainsBlog.root}/admin/posts/#{post.id}", :message => "Published Post \"#{post.to_s}\""
     else
       response.render "blog_admin/posts/edit", :post => post, :blog => @blog, :authors => @blog.authors
     end

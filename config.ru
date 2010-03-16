@@ -19,10 +19,10 @@ DataObjects::Sqlite3.logger = DataObjects::Logger.new(Pathname(__FILE__).dirname
 
 PortAuthority::public_path = CaptainsBlog.public_path
 UI::public_path = CaptainsBlog.public_path
-CaptainsBlog.root = "/blogs"
+CaptainsBlog.root = ""
 CaptainsBlog.blog_repository = Pathname(__FILE__).dirname.expand_path + 'blogs'
 CaptainsBlog.require_approvals
-UI::AccountNavigation.register("Site Admin", "/admin")
+#UI::AccountNavigation.register("Site Admin", "/admin")
 
 if $0 == __FILE__
   require "harbor/console"

@@ -16,7 +16,7 @@ class CaptainsBlog::BlogAdmin::Tags
       "An error ocurred while removing tag \"#{Tag.get(tag_id).name}\""
     end
 
-    response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/tags", :message => message
+    response.redirect "#{CaptainsBlog.root}/admin/tags", :message => message
   end
 
 end
