@@ -20,7 +20,7 @@
 </head>
 
 <body>
-	<h1><a href="<%= blog_root %>"><%= @blog.title %></a></h1>
+	<h1><a href="<%= blog_root.empty? ? '/' : blog_root %>"><%= @blog.title %></a></h1>
 	<% if tagline = @blog.tagline %>
 	  <h2><%= tagline %></h2>
 	<% end %>
