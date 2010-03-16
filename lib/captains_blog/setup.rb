@@ -47,7 +47,7 @@ class CaptainsBlog::Setup < Harbor::Application
 
         request.application.router.clear
         request.session[:user_id] = user.id
-        response.redirect "/"
+        response.redirect "/admin/"
       else
         response.render 'setup/index', :layout => nil, :user => user, :blog => blog
       end
