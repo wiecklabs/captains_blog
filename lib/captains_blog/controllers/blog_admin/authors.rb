@@ -26,7 +26,7 @@ class CaptainsBlog::BlogAdmin::Authors
     author.attributes = author_params
 
     if author.save
-      response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/authors/#{author.id}", :message => "Saved Author \"#{author.to_s}\""
+      response.redirect "#{CaptainsBlog.root}/admin/authors/#{author.id}", :message => "Saved Author \"#{author.to_s}\""
     else
       response.render "blog_admin/authors/edit", :users => User.all, :author => author, :blog => @blog
     end
@@ -36,7 +36,7 @@ class CaptainsBlog::BlogAdmin::Authors
   def add(params)
     author = blog.authors.new(params)
     if author.save
-      response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/authors/#{author.id}", :message => "Saved Author \"#{author.to_s}\""
+      response.redirect "#{CaptainsBlog.root}/admin/authors/#{author.id}", :message => "Saved Author \"#{author.to_s}\""
     else
       response.render "blog_admin/authors/new", :users => User.all, :author => author, :blog => @blog
     end
@@ -47,7 +47,7 @@ class CaptainsBlog::BlogAdmin::Authors
     author = Author.first(:id => author_id, :blog_id => @blog.id)
     
     if author.destroy
-      response.redirect "#{CaptainsBlog.root}/#{@blog.slug}/admin/authors", :message => "Deleted Author \"#{author.to_s}\""
+      response.redirect "#{CaptainsBlog.root}/admin/authors", :message => "Deleted Author \"#{author.to_s}\""
     else
       response.render "blog_admin/authors/edit", :users => User.all, :author => author, :blog => @blog
     end
