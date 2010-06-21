@@ -55,15 +55,19 @@ class Post
   end
 
   def status
-    return 'Draft' unless published
-
-    "Published at #{published_at.strftime("%Y-%m-%d @ %H:%M")}"
+    if published_at
+      "Published at #{published_at.strftime("%Y-%m-%d @ %H:%M")}"
+    else
+     'Draft'
+    end
   end
 
   def path
-    return "posts/#{id}" unless published
-
-    "#{published_at.strftime("%Y/%m/%d")}/#{slug}"
+    if published_at
+      "#{published_at.strftime("%Y/%m/%d")}/#{slug.gsub(/\W+/, '-')}"
+    else
+      "posts/#{id}"
+    end
   end
 
   def approved_comments
@@ -82,8 +86,10 @@ class Post
   end
 
   def accepting_comments?
-    return false unless published
-
-    attribute_get(:accepting_comments)
+    if published_at
+    attribute_get(:accepting_comments)      
+    else
+      false
+    end
   end
 end
