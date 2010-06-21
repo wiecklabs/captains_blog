@@ -17,7 +17,7 @@ require "rake/gempackagetask"
 
 NAME = "captains_blog"
 SUMMARY = "CaptainsBlog: Blog for Harbor Applications"
-GEM_VERSION = "0.3.5"
+GEM_VERSION = "0.3.6"
 
 spec = Gem::Specification.new do |s|
   s.name = NAME
