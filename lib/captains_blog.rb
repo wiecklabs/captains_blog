@@ -98,6 +98,7 @@ class CaptainsBlog < Harbor::Application
         get("#{root}/admin/posts/new") { |posts, params| posts.new }
         get("#{root}/admin/posts/:id") { |posts, params| posts.edit(params['id'].to_i) }
         put("#{root}/admin/posts/:id") { |posts, params| posts.update(params['id'].to_i, params.fetch('post', {}), params.fetch('categories', []), params.fetch('tags', [])) }
+        get("#{root}/admin/posts/:id/delete") { |posts, params| posts.delete(params['id'].to_i) }
         delete("#{root}/admin/posts/:id") { |posts, params| posts.delete(params['id'].to_i) }
         post("#{root}/admin/posts/publish") { |posts, params| posts.publish(nil, params.fetch('post', {}), params.fetch('categories', []), params.fetch('tags', [])) }
         put("#{root}/admin/posts/:id/publish") { |posts, params| posts.publish(params['id'].to_i, params.fetch('post', {}), params.fetch('categories', []), params.fetch('tags', [])) }

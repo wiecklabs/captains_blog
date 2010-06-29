@@ -6,7 +6,7 @@ class CaptainsBlog::BlogAdmin::Posts
 
   deny_unless_author
   def index
-    response.render "blog_admin/posts/index", :posts => Post.all, :blog => @blog
+    response.render "blog_admin/posts/index", :posts => @blog.posts(:order => [:published_at.desc]), :blog => @blog
   end
 
   deny_unless_author

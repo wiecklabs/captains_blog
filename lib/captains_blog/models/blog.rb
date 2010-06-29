@@ -38,6 +38,6 @@ class Blog
   end
 
   def published_posts(conditions = nil)
-    posts(:published => true, :order => [:published_at.desc])
+    posts(:published_at.not => nil, :order => [:published_at.desc])
   end
 end
