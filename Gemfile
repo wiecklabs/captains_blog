@@ -15,6 +15,7 @@ gem "rake"
 gem "RedCloth"
 gem "sanitize"
 gem "tmail"
+gem "unicorn"
 
 gem "harbor", "0.18.33", :git => "git://github.com/wiecklabs/harbor.git"
 gem "port_authority", "1.7.9", :git => "git://github.com/wiecklabs/port_authority.git"

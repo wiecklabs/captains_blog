@@ -1,26 +1,26 @@
 class Post 
 
-	include DataMapper::Resource
-	include DataMapper::Timestamp
+  include DataMapper::Resource
+  include DataMapper::Timestamp
 
-	property :id, Serial
-	# TODO why do we need this?
-	property :type, Discriminator
-	property :slug, String, :size => 200
-	property :title, String, :size => 300
-	property :content, Text
-	property :published, Boolean, :default => false
-	property :published_at, DateTime
-	property :accepting_comments, Boolean, :default => true
-	property :comment_count, Integer, :default => 0
-	property :template_name, String, :size => 50
+  property :id, Serial
+  # TODO why do we need this?
+  property :type, Discriminator
+  property :slug, String, :size => 200
+  property :title, String, :size => 300
+  property :content, Text
+  property :published, Boolean, :default => false
+  property :published_at, DateTime
+  property :accepting_comments, Boolean, :default => true
+  property :comment_count, Integer, :default => 0
+  property :template_name, String, :size => 50
 
-	belongs_to :blog
-	has n, :comments
+  belongs_to :blog
+  has n, :comments
 
   belongs_to :author
 
-	has n, :taggings
+  has n, :taggings
   # has n, :tags, :through => :taggings
 
   has n, :categories, :through => Resource
@@ -50,12 +50,12 @@ class Post
     taggings.map { |tagging| tagging.tag }
   end
 
-	def to_s
+  def to_s
     title.blank? ? "Untitled" : title
   end
 
   def status
-    if published_at
+    if published? 
       "Published at #{published_at.strftime("%Y-%m-%d @ %H:%M")}"
     else
      'Draft'
@@ -63,7 +63,7 @@ class Post
   end
 
   def path
-    if published_at
+    if published? 
       "#{published_at.strftime("%Y/%m/%d")}/#{slug.gsub(/\W+/, '-')}"
     else
       "posts/#{id}"
@@ -85,9 +85,13 @@ class Post
     end
   end
 
+  def published?
+    published && published_at && DateTime.now >= published_at
+  end
+
   def accepting_comments?
-    if published_at
-    attribute_get(:accepting_comments)      
+    if published?
+      attribute_get(:accepting_comments)
     else
       false
     end

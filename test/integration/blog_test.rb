@@ -20,7 +20,7 @@ module Integration
 
     def test_published_posts
       author = create_author(@blog, @user)
-      post = create_post(author, @blog).tag!('life')
+      post = create_post(author, @blog, Time.now).tag!('life')
 
       assert_equal 0, @blog.published_posts.size
 

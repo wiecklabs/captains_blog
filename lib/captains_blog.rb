@@ -5,18 +5,14 @@ $:.unshift(Pathname(__FILE__).dirname.expand_path)
 
 require 'captains_blog/support'
 
-gem "harbor", ">= 0.18.33"
 require "harbor"
 require "harbor/logging"
 
-gem "dm-is-tree"
 require "dm-is-tree"
 require "dm-is-tree/is/version"
 
-gem "port_authority", ">= 1.7.9"
 require "port_authority"
 
-gem "RedCloth"
 require "redcloth"
 
 class CaptainsBlog < Harbor::Application
