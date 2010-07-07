@@ -1,11 +1,19 @@
 <a href="/admin/blogs/new">New</a>
 
+<% if @blogs.empty? %>
+  <div>
+    There aren't any blogs available, create a new one by clicking <a href="/admin/blogs/new">here</a>
+  </div>
+<% else %>
 <ul>
+
   <% @blogs.each do |blog| %>
   <li>
     <a href="/admin/blogs/<%= blog.id %>"><%= blog.title %></a> 
-    (<a href="<%= blog_root(blog) %>/admin">admin</a>)
+    (<a href="<%= blog_root(blog) %>/admin/posts">admin</a>)
     (<a href="<%= blog_root(blog) %>">public view</a>)
   </li>
   <% end %>
 </ul>
+
+ <% end %>

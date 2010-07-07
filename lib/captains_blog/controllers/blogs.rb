@@ -3,27 +3,27 @@ class CaptainsBlog::Blogs
 
   attr_accessor :request, :response, :logger
 
-  protect
+  protect "Blogs", "index"
   def index
     blogs = Blog.all
 
     response.render "admin/blogs/index", :blogs => blogs
   end
 
-  protect
+  protect "Blogs", "create"
   def new
     blog = Blog.new
     response.render "admin/blogs/new", :blog => blog
   end
 
-  protect
+  protect "Blogs", "update"
   def edit(id)
     blog = Blog.get(id)
 
     response.render "admin/blogs/edit", :blog => blog
   end
 
-  protect
+  protect "Blogs", "create"
   def create(blog_params)
     blog = Blog.new(blog_params)
 
@@ -37,7 +37,7 @@ class CaptainsBlog::Blogs
     end
   end
 
-  protect
+  protect "Blogs", "update"
   def update(id, blog_params)
     blog = Blog.get(id)
     blog.attributes =  blog_params

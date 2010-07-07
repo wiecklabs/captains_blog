@@ -3,6 +3,7 @@ class CaptainsBlog::Comments
   
   attr_accessor :request, :response, :logger, :blog
 
+  protect
   def create(slug, params)
     post = Post.first(:slug => slug)
     body = params.delete("body").to_s.chomp.gsub(/\n/, "<br>")

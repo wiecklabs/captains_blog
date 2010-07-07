@@ -2,7 +2,7 @@ class Author
   include DataMapper::Resource
 
   property :id, Serial
-  property :byline, String
+  property :byline, Text
 
   belongs_to :blog, :class_name => 'Blog', :child_key => [:blog_id]
   belongs_to :user

@@ -15,6 +15,13 @@
   fieldset { width: 64em; }
   .date_time_message { clear:both; margin-left: 13em;}
 </style>
+
+<script type="text/javascript">
+  $(function() {
+    tinyMCE.execCommand("mceAddControl", true, "post_content");
+  });
+</script>
+
 <% end %>
 
 <% form(resource_path, :method => form_method, :id => 'post_form') do %>

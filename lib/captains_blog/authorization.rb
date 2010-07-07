@@ -1,8 +1,21 @@
+# Permissions
+PermissionSet::permissions["Blogs"] = [
+  "index: List All Blogs",
+  "create: Create a new Blog",
+  "update: Update an existing Blog"
+]
+
+PermissionSet::permissions["BlogPosts"] = [
+  "list: List All Blog Posts",
+  "show: Show a Single Blog Post",
+  "comment: Comment on a Blog Post"
+]
+
 PermissionSet::permissions["Authors"] = [
-  "list",
-  "create",
-  "update",
-  "destroy"
+  "list: Display the list of Authors",
+  "create: Create a new Author",
+  "update: Update an existing Author",
+  "destroy: Delete an Author"
 ]
 
 module CaptainsBlog::Authorization

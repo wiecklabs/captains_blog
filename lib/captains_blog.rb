@@ -164,6 +164,7 @@ class Fixnum
 	end
 end
 
+
 # TODO: What about setting up an autoloader?
 
 require "captains_blog/models/post"
