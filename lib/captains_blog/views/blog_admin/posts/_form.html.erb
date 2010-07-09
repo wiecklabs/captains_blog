@@ -46,7 +46,7 @@
 
     <label for="published">Published?</label>
     <input type="hidden" name="post[published]" value="0">
-    <input type="checkbox" name="post[published]" value="1" checked="<%= @post.published? ? 'checked' : '' %>">
+    <input type="checkbox" name="post[published]" value="1" <%= @post.published? ? 'checked="checked"' : '' %>>
 
     <label for="published_at">Publish Date/Time</label>
     <%= UI::DateTimeTextBox.new(self, @post, "post", "published_at") %>
