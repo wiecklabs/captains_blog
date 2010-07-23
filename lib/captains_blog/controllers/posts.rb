@@ -1,3 +1,5 @@
+require 'nokogiri'
+
 class CaptainsBlog::Posts
 
   include PortAuthority::Authorization
@@ -37,6 +39,20 @@ class CaptainsBlog::Posts
     response.render blog.themed_post_path('posts/show_post'), :blog => blog, :post => post, :comments => comments
   end
 
+  protect "BlogPosts", "show"
+  def show_plain_text(slug_or_id)
+    post = if slug_or_id.is_a?(Integer)
+      blog.posts.get(slug_or_id)
+    else
+      blog.posts.first(:slug => slug_or_id.downcase)
+    end
+
+    response.abort!(404) unless post
+
+    #response.headers["Content-Disposition"] = "attachment; filename=#{post.title.gsub(/\W+/, '-')}.txt"
+    response.stream_file StringIO.new(convert_post_to_plain_text(post)), "text/plain"
+  end
+
   protect "BlogPosts", "comment"
   def leave_comment(post_slug, comment_params)
     post = blog.posts.first(:slug => post_slug)
@@ -47,6 +63,19 @@ class CaptainsBlog::Posts
       raise "no"
     end
 
+  end
+
+  protected
+
+  def convert_post_to_plain_text(post)
+    # Nokogiri will convert html to text, but block level elements are not appended with newlines.
+    block_elements = [/br\s\//, "/div", /\/h[1-6]/, "/p"]
+
+    # We will be making 2 passes through Nokogiri.
+    # The first is to clean up and possible correct malformed html.
+    doc = Nokogiri::HTML(post.content)
+    doc = Nokogiri::HTML(doc.to_xhtml.gsub(">\n", ">").gsub(/(<((#{block_elements.join(")|(")}))>)/) { |s| "\n#{$1}" })
+    return "\xEF\xBB\xBF" + ([post.title] + doc.text.split("\n")).map { |line| line.strip }.join("\n").gsub(/\n/, "\r\n")
   end
 
 end

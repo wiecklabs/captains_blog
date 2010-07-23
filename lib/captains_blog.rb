@@ -138,7 +138,9 @@ class CaptainsBlog < Harbor::Application
         get("#{root}/tags/:tag") {|blog_posts, request| blog_posts.tagged(request['tag']) }
         get("#{root}/categories/:category") {|blog_posts, request| blog_posts.under(request['category']) }
         get("#{root}/:yyyy/:mm/:dd/:post_slug") { |blog_posts, request| blog_posts.show(request['post_slug']) }
+        get("#{root}/:yyyy/:mm/:dd/:post_slug.txt") { |blog_posts, request| blog_posts.show_plain_text(request['post_slug']) }
         get("#{root}/posts/:id") { |blog_posts, request| blog_posts.show(request['id'].to_i) }
+        get("#{root}/posts/:id.txt") { |blog_posts, request| blog_posts.show_plain_text(request['id'].to_i) }
       end
 
     end

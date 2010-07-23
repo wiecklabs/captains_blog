@@ -17,7 +17,7 @@ require "rake/gempackagetask"
 
 NAME = "captains_blog"
 SUMMARY = "CaptainsBlog: Blog for Harbor Applications"
-GEM_VERSION = "0.3.12"
+GEM_VERSION = "0.3.13"
 
 spec = Gem::Specification.new do |s|
   s.name = NAME
@@ -36,6 +36,7 @@ spec = Gem::Specification.new do |s|
   s.add_dependency 'logging'
   s.add_dependency "dm-is-tree", '= 0.9.11'
   s.add_dependency 'RedCloth'
+  s.add_dependency "nokogiri"
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|
