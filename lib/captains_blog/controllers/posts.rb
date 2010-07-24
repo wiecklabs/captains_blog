@@ -74,8 +74,9 @@ class CaptainsBlog::Posts
     # We will be making 2 passes through Nokogiri.
     # The first is to clean up and possible correct malformed html.
     doc = Nokogiri::HTML(post.content)
-    doc = Nokogiri::HTML(doc.to_xhtml.gsub(">\n", ">").gsub(/(<((#{block_elements.join(")|(")}))>)/) { |s| "\n#{$1}" })
-    return "\xEF\xBB\xBF" + ([post.title] + doc.text.split("\n")).map { |line| line.strip }.join("\n").gsub(/\n/, "\r\n")
+    content = doc.text.split("\n").map { |line| line.chomp.gsub(/([\x80-\xff]+)$/, "") }.join("\n").strip
+    content = "#{post.published_at.strftime('%B %d, %Y')} - #{content.gsub(/\r?\n/, "\r\n\r\n")}" unless post.published_at.nil?
+    return "\xEF\xBB\xBF#{post.title}\r\n\r\n#{content}"
   end
 
 end
