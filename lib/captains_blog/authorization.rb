@@ -11,6 +11,10 @@ PermissionSet::permissions["BlogPosts"] = [
   "comment: Comment on a Blog Post"
 ]
 
+PermissionSet::permissions["BlogComments"] = [
+  "destroy: Delete a comment"
+]
+
 PermissionSet::permissions["Authors"] = [
   "list: Display the list of Authors",
   "create: Create a new Author",

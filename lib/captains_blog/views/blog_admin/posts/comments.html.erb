@@ -9,6 +9,7 @@
       <% if Comment.require_approvals? %>
       <th>Approve/Disapprove</th>
       <% end %>
+      <th></th>
     </tr>
   </thead>
   <% @comments.each do |comment| %>
@@ -32,6 +33,9 @@
       <% end %>
     </td>
     <% end %>
+    <td><a class="modal_link delete" style="float: right;" href="<%= blog_root %>/admin/comments/<%= comment.id %>/delete" onclick="return modalize(this);"><img src="<%= UI::Asset.new("images/delete_big.png") %>"></a></td>
   </tr>
   <% end %>
 </table>
+
+<div id="modal"></div>

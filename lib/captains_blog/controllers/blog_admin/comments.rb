@@ -1,6 +1,6 @@
 class CaptainsBlog::BlogAdmin::Comments
   include CaptainsBlog::Authorization
-
+  include Harbor::Events
   attr_accessor :request, :response, :logger, :blog
 
   deny_unless_author
@@ -47,6 +47,23 @@ class CaptainsBlog::BlogAdmin::Comments
     else
       response.redirect! "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/#{comment.post.id}/comments",
         :message => "Something went wrong. Comment could not be disapproved."
+    end
+  end
+  
+  protect "Comments", "destroy"
+  def delete(comment_id)
+    comment = Comment.first(:id => comment_id)
+    
+    case request.request_method
+    when "GET"
+      context = { :comment => comment, :blog => @blog }
+      context[:layout] = nil if request.xhr?
+      response.render "blog_admin/comments/delete", context
+    when "DELETE"
+      comment.destroy
+      raise_event(:comment_deleted, request, response, comment)
+      response.message("success", "Comment was deleted")
+      response.redirect! "#{CaptainsBlog.root}/#{@blog.slug}/admin/posts/#{comment.post.id}/comments"
     end
   end
 end

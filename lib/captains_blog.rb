@@ -127,6 +127,8 @@ class CaptainsBlog < Harbor::Application
         get("#{root}/admin/posts/:id/comments") { |comments, params| comments.index(params['id'].to_i)}
         get("#{root}/admin/comments/:comment_id/approve") { |comments, params| comments.approve(params['comment_id'].to_i)}
         get("#{root}/admin/comments/:comment_id/disapprove") { |comments, params| comments.disapprove(params['comment_id'].to_i)}
+        get("#{root}/admin/comments/:comment_id/delete") { |comments, params| comments.delete(params['comment_id']) }
+        delete("#{root}/admin/comments/:comment_id/delete") { |comments, params| comments.delete(params['comment_id']) }
       end
 
       using services, CaptainsBlog::Comments do
