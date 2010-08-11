@@ -50,7 +50,7 @@ class CaptainsBlog::BlogAdmin::Comments
     end
   end
   
-  protect "Comments", "destroy"
+  protect "BlogComments", "destroy"
   def delete(comment_id)
     comment = Comment.first(:id => comment_id)
     
